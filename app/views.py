@@ -161,6 +161,35 @@ def admin_tags():
     return render_template('admin-tags.html', tags=tags)
 
 
+@app.route('/admin/tags/new', methods=['POST'])
+@login_required
+def admin_tags_new():
+    new_tag = Tag(name=request.form['name'])
+    db.session.add(new_tag)
+    db.session.commit()
+    tags = Tag.query.all()
+    return redirect(url_for('admin_tags'))
+
+
+@app.route('/admin/tags/delete/<int:tag_id>', methods=['POST'])
+@login_required
+def admin_tags_delete(tag_id):
+    db.session.delete(Tag.query.get(tag_id))
+    db.session.commit()
+    tags = Tag.query.all()
+    return redirect(url_for('admin_tags'))
+
+
+@app.route('/admin/tags/edit/<int:tag_id>', methods=['POST']) # route hard coded in JS file
+@login_required
+def admin_tags_edit(tag_id):
+    tag = Tag.query.get(tag_id)
+    tag_name = request.get_json().get('tag_name')
+    tag.name = tag_name.strip()
+    db.session.commit()
+    return redirect(url_for('admin_tags'))
+
+
 @app.route('/admin/users')
 @login_required
 def admin_users():

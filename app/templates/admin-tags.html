@@ -19,12 +19,11 @@
                 <td>{{ tag.id }}</td>
                 <td>{{ tag.name }}</td>
                 <td>
-                    <button type="button" class="open-editTagDialog btn btn-primary" data-toggle="modal" 
-                                data-target="#edit-modal" data-id="{{ tag.id }}" data-name="{{ tag.name }}">
+                    <button type="button" class="open-edit-tag-modal btn btn-primary" data-toggle="modal" 
+                                data-target="#modal-edit-tag" data-id="{{ tag.id }}" data-name="{{ tag.name }}">
                         Modifer
                     </button>
-                    <form action="" method="POST" class="d-inline">
-                        <input type="hidden" name="delete" value="{{ tag.id }}">
+                    <form action="{{ url_for('admin_tags_delete', tag_id=tag.id) }}" method="POST" class="d-inline">
                         <input type="submit" class="btn btn-danger" value="Supprimer">
                     </form>
                 </td>
@@ -34,13 +33,12 @@
     </table>
     <div class="col-4 mx-auto my-5">
         <h3>Créer un nouveau tag</h3>
-        <form action="" method="POST" class="form">
-            <input type="hidden" name="new_tag" value="1">
+        <form action="{{ url_for('admin_tags_new') }}" method="POST" class="form">
             <input type="text" name="name" placeholder="Nom" class="form-control">
             <input type="submit" class="btn btn-success mt-3" value="Créer">
         </form>
     </div>
-    <div class="modal" id="edit-modal">
+    <div class="modal" id="modal-edit-tag">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -48,11 +46,11 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <input id="input_tag_id" type="hidden" name="tag_id" value="">
-                    <input id="input_tag_name" type="text" name="new_tag_name" class="form-control w-50 mx-auto" value="">
+                    <input id="input-tag-id" type="hidden" name="tag_id" value="">
+                    <input id="input-tag-name" type="text" name="new_tag_name" class="form-control w-50 mx-auto" value="">
                 </div>
                 <div class="modal-footer">
-                    <button id="button_edit_tag" type="button" class="btn btn-success" data-dismiss="modal">Valider</button>
+                    <button id="button-edit-tag" type="button" class="btn btn-success" data-dismiss="modal">Valider</button>
                 </div>
                 
             </div>
