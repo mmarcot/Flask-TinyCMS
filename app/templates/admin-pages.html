@@ -3,5 +3,36 @@
 {% block title %}Pages{% endblock %}
 
 {% block admin_content %}
-<h1>Pages</h1>
+    <h1>Pages</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Titre</th>
+                <th>Slug</th>
+                <th>Publié</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for page in pages %}
+            <tr>
+                <td>{{ page.id }}</td>
+                <td>{{ page.title }}</td>
+                <td>{{ page.slug }}</td>
+                <td>{{ page.published and 'Oui' or 'Non' }}</td>
+                <td>
+                    <button type="button" class="open-editpageDialog btn btn-primary" data-toggle="modal" 
+                                data-target="#edit-modal" data-id="{{ page.id }}">
+                        Modifer
+                    </button>
+                    <form action="" method="POST" class="d-inline">
+                        <input type="hidden" name="delete" value="{{ page.id }}">
+                        <input type="submit" class="btn btn-danger" value="Supprimer">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

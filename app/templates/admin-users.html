@@ -3,5 +3,34 @@
 {% block title %}Users{% endblock %}
 
 {% block admin_content %}
-    <h1>admin Users</h1>
+    <h1>Users</h1>
+    <table class="table table-striped col-md-8 col-lg-6 mx-auto">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <button type="button" class="open-edituserDialog btn btn-primary" data-toggle="modal" 
+                                data-target="#edit-modal" data-id="{{ user.id }}">
+                        Modifer
+                    </button>
+                    <form action="" method="POST" class="d-inline">
+                        <input type="hidden" name="delete" value="{{ user.id }}">
+                        <input type="submit" class="btn btn-danger" value="Supprimer">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

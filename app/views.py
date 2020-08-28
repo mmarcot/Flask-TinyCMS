@@ -132,25 +132,29 @@ def logout():
 @app.route('/admin/pages')
 @login_required
 def admin_pages():
-    return render_template('admin-pages.html')
+    pages = Page.query.all()
+    return render_template('admin-pages.html', pages=pages)
 
 
 @app.route('/admin/posts')
 @login_required
 def admin_posts():
-    return render_template('admin-posts.html')
+    posts = Post.query.all()
+    return render_template('admin-posts.html', posts=posts)
 
 
 @app.route('/admin/tags')
 @login_required
 def admin_tags():
-    return render_template('admin-tags.html')
+    tags = Tag.query.all()
+    return render_template('admin-tags.html', tags=tags)
 
 
 @app.route('/admin/users')
 @login_required
 def admin_users():
-    return render_template('admin-users.html')
+    users = User.query.all()
+    return render_template('admin-users.html', users=users)
 
 
 
