@@ -5,17 +5,22 @@
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-2 bg-light border">
+            <div class="col-2 bg-dark text-light">
                 <h2>Admin</h2>
                 <ul>
-                    <li><a href="#">Articles</a></li>
-                    <li><a href="#">Pages</a></li>
-                    <li><a href="#">Utilisateurs</a></li>
-                    <li><a href="#">Tags</a></li>
+                    <li><a href="{{ url_for('admin_posts') }}">Articles</a></li>
+                    <li><a href="{{ url_for('admin_pages') }}">Pages</a></li>
+                    <li><a href="{{ url_for('admin_users') }}">Utilisateurs</a></li>
+                    <li><a href="{{ url_for('admin_tags') }}">Tags</a></li>
+                </ul>
+                <hr>
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Accueil du site</a></li>
+                    <li><a href="{{ url_for('logout') }}">Se déconnecter</a></li>
                 </ul>
             </div>
-            <div class="col-10 bg-dark">
-                <h2>zinzin</h2>
+            <div class="col-10 bg-lght">
+                {% block admin_content %}{% endblock %}
             </div>
         </div>
     </div>

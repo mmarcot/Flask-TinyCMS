@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect, flash
+from flask import Flask, render_template, request, url_for, redirect, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_login import LoginManager, login_user, login_required, current_user, UserMixin, logout_user
@@ -91,29 +91,66 @@ class Tag(db.Model):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('site-index.html')
+
+
+@app.route('/blog')
+def blog():
+    posts = Post.query.all()
+    return render_template('site-blog.html', posts=posts)
+
+@app.route('/post/<slug>')
+def post_detail(slug):
+    post = Post.query.filter_by(slug=slug).first()
+    if not post:
+        abort(404)
+    return render_template('site-post-detail.html', post=post)
 
 
 @app.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'GET':
-        return render_template('login.html')
+        return render_template('site-login.html')
     
     user = User.query.filter_by(email=request.form['mail_or_username']).first()
     if not user:
         user = User.query.filter_by(username=request.form['mail_or_username']).first()
     if user and user.password == request.form['password']:
         login_user(user, remember=True)
-        return redirect(url_for('admin'))
+        return redirect(url_for('admin_posts'))
 
     flash('Bad login')
-    return render_template('login.html')
+    return render_template('site-login.html')
 
-
-@app.route('/admin')
+@app.route('/logout')
 @login_required
-def admin():
-    return render_template('admin.html')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+
+@app.route('/admin/pages')
+@login_required
+def admin_pages():
+    return render_template('admin-pages.html')
+
+
+@app.route('/admin/posts')
+@login_required
+def admin_posts():
+    return render_template('admin-posts.html')
+
+
+@app.route('/admin/tags')
+@login_required
+def admin_tags():
+    return render_template('admin-tags.html')
+
+
+@app.route('/admin/users')
+@login_required
+def admin_users():
+    return render_template('admin-users.html')
 
 
 

@@ -1,12 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'admin.html' %}
 
-{% block title %}Mallory MARCOT - Les tags{% endblock %}
+{% block title %}Tags{% endblock %}
 
-{% block content %}
+{% block admin_content %}
 <div class="text-center">
     <h1 class="mt-5">Les tags</h1>
     <div class="m-5" style="display: flex; justify-content: center;">
-        <form action="{{ url_for('tag_all') }}" method="POST" class="form-inline">
+        <form action="" method="POST" class="form-inline">
             <input type="text" name="new_tag" placeholder="Nouveau tag" class="form-control">
             <input type="submit" class="btn btn-success" value="Créer">
         </form>

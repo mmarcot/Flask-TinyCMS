@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'site.html' %}
 
 {% block title %}Login page{% endblock %}
 
-{% block content %}
+{% block site_content %}
     <div class="col-3 mx-auto text-center p-4 m-5 border bg-light" style="border-radius: 3px">
         <form action="/login" method="POST">
             <input type="text" class="form-control" placeholder="E-mail or username" name="mail_or_username">
