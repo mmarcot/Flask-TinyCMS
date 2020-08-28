@@ -17,7 +17,7 @@
                 </li>
                 {% for page in site_pages %}
                 <li>
-                    <a class="nav-link" href="{{ url_for('page_detail', slug=page.slug) }}">{{ page.menu_title }}</a>
+                    <a class="nav-link" href="{{ url_for('page_detail', slug=page.slug) }}">{{ page.nav_label }}</a>
                 </li>
                 {% endfor %}
                 {% if current_user.is_authenticated %}
