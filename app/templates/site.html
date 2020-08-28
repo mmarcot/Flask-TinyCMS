@@ -15,6 +15,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('blog') }}">Blog</a>
                 </li>
+                {% for page in site_pages %}
+                <li>
+                    <a class="nav-link" href="{{ url_for('page_detail', slug=page.slug) }}">{{ page.menu_title }}</a>
+                </li>
+                {% endfor %}
                 {% if current_user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('admin_posts') }}">Admin</a>

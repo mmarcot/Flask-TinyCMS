@@ -27,6 +27,11 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 
+@app.context_processor
+def inject_pages():
+    pages = Page.query.all()
+    return {'site_pages': pages}
+
 
 
 #######################################################################################################
@@ -59,6 +64,7 @@ class Post(db.Model):
 class Page(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
+    menu_title = db.Column(db.String(50), nullable=False)
     slug = db.Column(db.String(100), nullable=False, unique=True)
     content = db.Column(db.Text, nullable=False)
     creation_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
@@ -105,6 +111,13 @@ def post_detail(slug):
     if not post:
         abort(404)
     return render_template('site-post-detail.html', post=post)
+
+@app.route('/page/<slug>')
+def page_detail(slug):
+    page = Page.query.filter_by(slug=slug).first()
+    if not page:
+        abort(404)
+    return render_template('site-page-detail.html', page=page)
 
 
 @app.route('/login', methods=('GET', 'POST'))

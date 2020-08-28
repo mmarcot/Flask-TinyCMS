@@ -1,4 +1,4 @@
-from app import db, User, Post, Tag, Page
+from views import db, User, Post, Tag, Page
 
 db.drop_all()
 db.create_all()
@@ -40,6 +40,7 @@ db.session.commit()
 
 page = Page(
     title="La passion du poulet",
+    menu_title="Poulet",
     slug="la-passion-du-poulet",
     content="<p>Le poulet cest trop bien</p><p>Ca pond des oeufs!</p>",
     published=True,
