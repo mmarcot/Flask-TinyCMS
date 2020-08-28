@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Login page{% endblock %}
+
+{% block content %}
+    <div class="col-3 mx-auto text-center p-4 m-5 border bg-light" style="border-radius: 3px">
+        <form action="/login" method="POST">
+            <input type="text" class="form-control" placeholder="E-mail or username" name="mail_or_username">
+            <input type="password" class="form-control my-2" placeholder="Enter password" name="password">
+            <input type="submit" class="btn btn-info mt-3" value="Valider">
+        </form>
+    </div>
+{% endblock %}

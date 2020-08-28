@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Posts{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="my-5">Posts</h1>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Date création</th>
+            <th>Auteur</th>
+            <th>Publié</th>
+            <th>Tags</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for post in posts %}
+        <tr>
+            <td>{{ post.id }}</td>
+            <td>{{ post.title }}</td>
+            <td>{{ post.creation_date.strftime('%a %d %B %Y à %-Hh%M') }}</td>
+            <td>{{ post.user.username }}</td>
+            <td>{{ post.published and 'Oui' or 'Non' }}</td>
+            <td>
+                {% for tag in post.tags %}
+                {{ tag.name }}
+                {% endfor %}
+            </td>
+            <td>
+                <button class="open-editpostDialog btn btn-info" data-toggle="modal" 
+                data-target="#edit-modal" data-id="{{ post.id }}">Modifer</button>
+                <form action="{{ url_for('posts_all') }}" method="POST" class="d-inline">
+                    <input type="hidden" name="delete" value="{{ post.id }}">
+                    <input type="submit" class="btn btn-danger" value="Supprimer">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="modal" id="edit-modal">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Modifier un post</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input id="input_post_id" type="hidden" name="post_id" value="">
+                <input type="hidden" name="new_post" value="1">
+                <input type="text" name="title" placeholder="Titre" class="form-control">
+                <input type="text" name="slug" placeholder="Slug" class="form-control my-2">
+                <input type="text" name="tags" placeholder="Tags" class="form-control">
+                <div class="form-check my-2">
+                    <label for="published2" class="form-check-label">
+                        <input type="checkbox" name="published" id="published2" checked class="form-check-input" value="publi">
+                        Publier
+                    </label>
+                </div>
+                <input type="text" name="abstract_image" placeholder="Abstract image" class="form-control my-2">
+                <textarea name="abstract" placeholder="Abstract text" class="form-control my-2" rows=4></textarea>
+                <textarea name="content" placeholder="Contenu" class="form-control" rows=12></textarea>
+            </div>
+            <div class="modal-footer">
+                <button id="button_edit_post" type="button" class="btn btn-success" data-dismiss="modal">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-6 mx-auto my-5">
+    <h3>Créer un nouvel post</h3>
+    <form action="{{ url_for('posts_all') }}" method="POST" class="form">
+        <input type="hidden" name="new_post" value="1">
+        <input type="text" name="title" placeholder="Titre" class="form-control">
+        <input type="text" name="slug" placeholder="Slug" class="form-control my-2">
+        <input type="text" name="tags" placeholder="Tags" class="form-control">
+        <div class="form-check my-2">
+            <label for="published" class="form-check-label">
+                <input type="checkbox" name="published" id="published" checked class="form-check-input">
+                Publier
+            </label>
+        </div>
+        <input type="text" name="abstract_image" placeholder="Abstract image" class="form-control my-2">
+        <textarea name="abstract" placeholder="Abstract text" class="form-control my-2" rows=4></textarea>
+        <textarea name="content" placeholder="Contenu" class="form-control" rows=12></textarea>
+        <input type="submit" class="btn btn-success mt-3" value="Créer">
+    </form>
+</div>
+{% endblock %}
