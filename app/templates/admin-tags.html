@@ -4,13 +4,7 @@
 
 {% block admin_content %}
 <div class="text-center">
-    <h1 class="mt-5">Les tags</h1>
-    <div class="m-5" style="display: flex; justify-content: center;">
-        <form action="" method="POST" class="form-inline">
-            <input type="text" name="new_tag" placeholder="Nouveau tag" class="form-control">
-            <input type="submit" class="btn btn-success" value="Créer">
-        </form>
-    </div>
+    <h1 class="my-5">Les tags</h1>
     <table class="table table-striped col-md-6 col-lg-4 mx-auto">
         <thead>
             <tr>
@@ -38,6 +32,14 @@
             {% endfor %}
         </tbody>
     </table>
+    <div class="col-4 mx-auto my-5">
+        <h3>Créer un nouveau tag</h3>
+        <form action="" method="POST" class="form">
+            <input type="hidden" name="new_tag" value="1">
+            <input type="text" name="name" placeholder="Nom" class="form-control">
+            <input type="submit" class="btn btn-success mt-3" value="Créer">
+        </form>
+    </div>
     <div class="modal" id="edit-modal">
         <div class="modal-dialog">
             <div class="modal-content">

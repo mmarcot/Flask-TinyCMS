@@ -64,13 +64,11 @@ class Post(db.Model):
 class Page(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
-    menu_title = db.Column(db.String(50), nullable=False)
+    nav_label = db.Column(db.String(50), nullable=False)
     slug = db.Column(db.String(100), nullable=False, unique=True)
     content = db.Column(db.Text, nullable=False)
     creation_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     published = db.Column(db.Boolean, nullable=False, default=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship('User', backref=db.backref('pages', lazy=True))
 
 
 class User(UserMixin, db.Model):

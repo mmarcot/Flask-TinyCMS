@@ -40,11 +40,10 @@ db.session.commit()
 
 page = Page(
     title="La passion du poulet",
-    menu_title="Poulet",
+    nav_label="Poulet",
     slug="la-passion-du-poulet",
     content="<p>Le poulet cest trop bien</p><p>Ca pond des oeufs!</p>",
     published=True,
-    user_id=admin.id,
 )
 db.session.add(page)
 db.session.commit()

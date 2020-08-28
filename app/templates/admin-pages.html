@@ -3,7 +3,9 @@
 {% block title %}Pages{% endblock %}
 
 {% block admin_content %}
-    <h1>Pages</h1>
+    <div class="text-center my-5">
+        <h1>Les pages</h1>
+    </div>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -20,7 +22,7 @@
             <tr>
                 <td>{{ page.id }}</td>
                 <td>{{ page.title }}</td>
-                <td>{{ page.menu_title }}</td>
+                <td>{{ page.nav_label }}</td>
                 <td>{{ page.slug }}</td>
                 <td>{{ page.published and 'Oui' or 'Non' }}</td>
                 <td>
@@ -37,4 +39,22 @@
             {% endfor %}
         </tbody>
     </table>
+
+    <div class="col-8 mx-auto my-5">
+        <h3>Créer une nouvelle page</h3>
+        <form action="" method="POST" class="form">
+            <input type="hidden" name="new_page" value="1">
+            <input type="text" name="title" placeholder="Titre" class="form-control">
+            <input type="text" name="nav_label" placeholder="Etiquette menu" class="form-control my-2">
+            <input type="text" name="slug" placeholder="Slug" class="form-control">
+            <div class="form-check my-2">
+                <label for="published" class="form-check-label">
+                    <input type="checkbox" name="published" id="published" checked class="form-check-input">
+                    Publier
+                </label>
+            </div>
+            <textarea name="content" placeholder="Contenu" class="form-control" rows=12></textarea>
+            <input type="submit" class="btn btn-success mt-3" value="Créer">
+        </form>
+    </div>
 {% endblock %}
