@@ -180,11 +180,12 @@ def admin_tags_delete(tag_id):
     return redirect(url_for('admin_tags'))
 
 
-@app.route('/admin/tags/edit/<int:tag_id>', methods=['POST']) # route hard coded in JS file
+@app.route('/admin/tags/edit', methods=['POST'])
 @login_required
-def admin_tags_edit(tag_id):
+def admin_tags_edit():
+    tag_id = int(request.form['tag_id'])
     tag = Tag.query.get(tag_id)
-    tag_name = request.get_json().get('tag_name')
+    tag_name = request.form['new_tag_name']
     tag.name = tag_name.strip()
     db.session.commit()
     return redirect(url_for('admin_tags'))
