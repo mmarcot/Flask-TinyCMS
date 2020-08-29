@@ -30,8 +30,7 @@
                                 data-target="#edit-modal" data-id="{{ page.id }}">
                         Modifer
                     </button>
-                    <form action="" method="POST" class="d-inline">
-                        <input type="hidden" name="delete" value="{{ page.id }}">
+                    <form action="{{ url_for('admin_pages_delete', page_id=page.id) }}" method="POST" class="d-inline">
                         <input type="submit" class="btn btn-danger" value="Supprimer">
                     </form>
                 </td>
@@ -42,7 +41,7 @@
 
     <div class="col-8 mx-auto my-5">
         <h3>Créer une nouvelle page</h3>
-        <form action="" method="POST" class="form">
+        <form action="{{ url_for('admin_pages_new') }}" method="POST" class="form">
             <input type="hidden" name="new_page" value="1">
             <input type="text" name="title" placeholder="Titre" class="form-control">
             <input type="text" name="nav_label" placeholder="Etiquette menu" class="form-control my-2">

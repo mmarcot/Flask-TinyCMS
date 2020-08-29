@@ -31,7 +31,7 @@ def load_user(user_id):
 
 @app.context_processor
 def inject_pages():
-    pages = Page.query.all()
+    pages = Page.query.filter_by(published=True)
     return {'site_pages': pages}
 
 
@@ -153,6 +153,19 @@ def logout():
     return redirect(url_for('index'))
 
 
+
+################## ADMIN POSTS
+
+@app.route('/admin/posts')
+@login_required
+def admin_posts():
+    posts = Post.query.all()
+    return render_template('admin-posts.html', posts=posts)
+
+
+
+################## ADMIN PAGES
+
 @app.route('/admin/pages')
 @login_required
 def admin_pages():
@@ -160,11 +173,28 @@ def admin_pages():
     return render_template('admin-pages.html', pages=pages)
 
 
-@app.route('/admin/posts')
+@app.route('/admin/pages/new', methods=['POST'])
 @login_required
-def admin_posts():
-    posts = Post.query.all()
-    return render_template('admin-posts.html', posts=posts)
+def admin_pages_new():
+    published = request.form.get('published', False)  == 'on'
+    new_page = Page(
+        title=request.form['title'].strip(),
+        nav_label=request.form['nav_label'].strip(),
+        slug=request.form['slug'].strip(),
+        content=request.form['content'].strip(),
+        published=published,
+    )
+    db.session.add(new_page)
+    db.session.commit()
+    return redirect(url_for('admin_pages'))
+
+
+@app.route('/admin/pages/delete/<int:page_id>', methods=['POST'])
+@login_required
+def admin_pages_delete(page_id):
+    db.session.delete(Page.query.get(page_id))
+    db.session.commit()
+    return redirect(url_for('admin_pages'))
 
 
 
@@ -247,6 +277,3 @@ def admin_users_edit():
     db.session.commit()
     return redirect(url_for('admin_users'))
 
-
-if __name__ == "__main__":
-    app.run()
