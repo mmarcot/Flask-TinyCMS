@@ -103,12 +103,14 @@ def blog():
     posts = Post.query.all()
     return render_template('site-blog.html', posts=posts)
 
+
 @app.route('/post/<slug>')
 def post_detail(slug):
     post = Post.query.filter_by(slug=slug).first()
     if not post:
         abort(404)
     return render_template('site-post-detail.html', post=post)
+
 
 @app.route('/page/<slug>')
 def page_detail(slug):
@@ -122,16 +124,15 @@ def page_detail(slug):
 def login():
     if request.method == 'GET':
         return render_template('site-login.html')
-    
     user = User.query.filter_by(email=request.form['mail_or_username']).first()
     if not user:
         user = User.query.filter_by(username=request.form['mail_or_username']).first()
     if user and user.password == request.form['password']:
         login_user(user, remember=True)
         return redirect(url_for('admin_posts'))
-
     flash('Bad login')
     return render_template('site-login.html')
+
 
 @app.route('/logout')
 @login_required
@@ -154,6 +155,9 @@ def admin_posts():
     return render_template('admin-posts.html', posts=posts)
 
 
+
+############ ADMIN TAGS
+
 @app.route('/admin/tags')
 @login_required
 def admin_tags():
@@ -164,10 +168,9 @@ def admin_tags():
 @app.route('/admin/tags/new', methods=['POST'])
 @login_required
 def admin_tags_new():
-    new_tag = Tag(name=request.form['name'])
+    new_tag = Tag(name=request.form['name'].strip())
     db.session.add(new_tag)
     db.session.commit()
-    tags = Tag.query.all()
     return redirect(url_for('admin_tags'))
 
 
@@ -176,7 +179,6 @@ def admin_tags_new():
 def admin_tags_delete(tag_id):
     db.session.delete(Tag.query.get(tag_id))
     db.session.commit()
-    tags = Tag.query.all()
     return redirect(url_for('admin_tags'))
 
 
@@ -191,12 +193,36 @@ def admin_tags_edit():
     return redirect(url_for('admin_tags'))
 
 
+
+
+############# ADMIN USERS
+
 @app.route('/admin/users')
 @login_required
 def admin_users():
     users = User.query.all()
     return render_template('admin-users.html', users=users)
 
+
+@app.route('/admin/users/new', methods=['POST'])
+@login_required
+def admin_users_new():
+    username = request.form['username'].strip()
+    email = request.form['email'].strip()
+    password = request.form['password'].strip()
+    user = User(username=username, email=email, password=password)
+    db.session.add(user)
+    db.session.commit()
+    return redirect(url_for('admin_users'))
+
+
+@app.route('/admin/users/delete/<int:user_id>', methods=['POST'])
+@login_required
+def admin_users_delete(user_id):
+    user = User.query.get(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('admin_users'))
 
 
 if __name__ == "__main__":
