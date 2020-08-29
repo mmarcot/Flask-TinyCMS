@@ -26,4 +26,18 @@ $(document).ready(function(){
         $('#modal-edit-page input[name="published"]').prop("checked", page.published);
         $('#modal-edit-page textarea[name="content"]').val(page.content);
     });
+
+    // edit posts modal:
+    $('.open-edit-post-modal').click(function(){
+        var post = $(this).data('post');
+        $('#edit-post-modal input[name="post_id"]').val(post.id);
+        $('#edit-post-modal input[name="title"]').val(post.title);
+        $('#edit-post-modal input[name="slug"]').val(post.slug);
+        $('#edit-post-modal input[name="tags"]').val(post.tags_str);
+        $('#edit-post-modal textarea[name="abstract"]').val(post.abstract);
+        $('#edit-post-modal input[name="abstract_image"]').val(post.abstract_image);
+        $('#edit-post-modal input[name="published"]').prop("checked", post.published);
+        $('#edit-post-modal textarea[name="content"]').val(post.content);
+    });
+
 });

@@ -35,23 +35,6 @@ def inject_pages():
     return {'site_pages': pages}
 
 
-def add_tags_to_post(tags, post):
-    '''
-    Add given tags to the post
-    :tags tags string separated with comma
-    :post the Post object
-    '''
-    for tag_name in [t.strip() for t in tags.split(',') if t]:
-        existing_tag = Tag.query.filter(Tag.name.ilike(tag_name)).first()
-        if not existing_tag:
-            new_tag = Tag(name=tag_name)
-            db.session.add(new_tag)
-            db.session.commit()
-            existing_tag = new_tag
-        post.tags.append(existing_tag)
-    return post
-
-
 
 #######################################################################################################
 ##                                                                                                   ##
@@ -78,6 +61,37 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('posts', lazy=True))
     tags = db.relationship('Tag', secondary=tags, lazy='subquery', backref=db.backref('posts', lazy=True))
+
+    @property
+    def tags_str(self):
+        res = ""
+        for tag in self.tags:
+            res += tag.name + ', '
+        return res.strip(' ,')
+
+    def add_tags(self, tags):
+        '''
+        Add given tags to the post
+        :tags tags string separated with comma
+        '''
+        for tag_name in [t.strip() for t in tags.split(',') if t]:
+            existing_tag = Tag.query.filter(Tag.name.ilike(tag_name)).first()
+            if not existing_tag:
+                new_tag = Tag(name=tag_name)
+                db.session.add(new_tag)
+                db.session.commit()
+                existing_tag = new_tag
+            self.tags.append(existing_tag)
+
+    def get_json_for(self, *args):
+        '''
+        Returns its fields into a JSON formatted object
+        :*args fields to be included in the json return
+        '''
+        res = {}
+        for arg in args:
+            res[arg] = getattr(self, arg)
+        return json.dumps(res)
 
 
 class Page(db.Model):
@@ -139,7 +153,7 @@ def index():
 
 @app.route('/blog')
 def blog():
-    posts = Post.query.all()
+    posts = Post.query.filter_by(published=True)
     return render_template('site-blog.html', posts=posts)
 
 
@@ -203,10 +217,11 @@ def admin_posts_new():
         content=request.form['content'].strip(),
         user_id=current_user.id,
     )
-    add_tags_to_post(request.form['tags'], new_post)
+    new_post.add_tags(request.form['tags'])
     db.session.add(new_post)
     db.session.commit()
     return redirect(url_for('admin_posts'))
+
 
 @app.route('/admin/posts/delete/<int:post_id>', methods=['POST'])
 @login_required
@@ -214,6 +229,25 @@ def admin_posts_delete(post_id):
     db.session.delete(Post.query.get(post_id))
     db.session.commit()
     return redirect(url_for('admin_posts'))
+
+
+@app.route('/admin/posts/edit', methods=['POST'])
+@login_required
+def admin_posts_edit():
+    post_id = int(request.form['post_id'])
+    post = Post.query.get(post_id)
+    post.title = request.form['title'].strip()
+    post.slug = request.form['slug'].strip()
+    post.published = request.form.get('published', False)  == 'on'
+    post.abstract_image = request.form['abstract_image'].strip()
+    post.abstract = request.form['abstract'].strip()
+    post.content = request.form['content'].strip()
+    post.add_tags(request.form['tags'])
+    db.session.commit()
+    return redirect(url_for('admin_posts'))
+
+
+
 
 ################## ADMIN PAGES
 
