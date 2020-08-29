@@ -15,4 +15,15 @@ $(document).ready(function(){
         $('#input-user-email').val(user.email);
         $('#input-user-password').val('********');
     });
+
+    // edit pages modal:
+    $('.open-edit-page-modal').click(function(){
+        var page = $(this).data('page');
+        $('#modal-edit-page input[name="page_id"]').val(page.id);
+        $('#modal-edit-page input[name="title"]').val(page.title);
+        $('#modal-edit-page input[name="nav_label"]').val(page.nav_label);
+        $('#modal-edit-page input[name="slug"]').val(page.slug);
+        $('#modal-edit-page input[name="published"]').prop("checked", page.published);
+        $('#modal-edit-page textarea[name="content"]').val(page.content);
+    });
 });

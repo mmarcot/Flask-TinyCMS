@@ -72,6 +72,16 @@ class Page(db.Model):
     creation_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     published = db.Column(db.Boolean, nullable=False, default=False)
 
+    def get_json_for(self, *args):
+        '''
+        Returns its fields into a JSON formatted object
+        :*args fields to be included in the json return
+        '''
+        res = {}
+        for arg in args:
+            res[arg] = getattr(self, arg)
+        return json.dumps(res)
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -81,8 +91,8 @@ class User(UserMixin, db.Model):
 
     def get_json_for(self, *args):
         '''
+        Returns its fields into a JSON formatted object
         :*args fields to be included in the json return
-        Method that returns its fields into a JSON formatted object
         '''
         res = {}
         for arg in args:
@@ -196,6 +206,19 @@ def admin_pages_delete(page_id):
     db.session.commit()
     return redirect(url_for('admin_pages'))
 
+
+@app.route('/admin/pages/edit', methods=['POST'])
+@login_required
+def admin_pages_edit():
+    page_id = int(request.form['page_id'])
+    page = Page.query.get(page_id)
+    page.title = request.form['title'].strip()
+    page.nav_label = request.form['nav_label'].strip()
+    page.slug = request.form['slug'].strip()
+    page.published = request.form.get('published', False)  == 'on'
+    page.content = request.form['content'].strip()
+    db.session.commit()
+    return redirect(url_for('admin_pages'))
 
 
 ############ ADMIN TAGS
