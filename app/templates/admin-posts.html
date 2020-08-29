@@ -34,7 +34,7 @@
             <td>
                 <button class="open-editpostDialog btn btn-info" data-toggle="modal" 
                 data-target="#edit-modal" data-id="{{ post.id }}">Modifer</button>
-                <form action="" method="POST" class="d-inline">
+                <form action="{{ url_for('admin_posts_delete', post_id=post.id) }}" method="POST" class="d-inline">
                     <input type="hidden" name="delete" value="{{ post.id }}">
                     <input type="submit" class="btn btn-danger" value="Supprimer">
                 </form>
@@ -74,8 +74,7 @@
 </div>
 <div class="col-8 mx-auto my-5">
     <h3>Créer un nouvel article</h3>
-    <form action="" method="POST" class="form">
-        <input type="hidden" name="new_post" value="1">
+    <form action="{{ url_for('admin_posts_new') }}" method="POST" class="form">
         <input type="text" name="title" placeholder="Titre" class="form-control">
         <input type="text" name="slug" placeholder="Slug" class="form-control my-2">
         <input type="text" name="tags" placeholder="Tags" class="form-control">

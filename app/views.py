@@ -35,6 +35,23 @@ def inject_pages():
     return {'site_pages': pages}
 
 
+def add_tags_to_post(tags, post):
+    '''
+    Add given tags to the post
+    :tags tags string separated with comma
+    :post the Post object
+    '''
+    for tag_name in [t.strip() for t in tags.split(',') if t]:
+        existing_tag = Tag.query.filter(Tag.name.ilike(tag_name)).first()
+        if not existing_tag:
+            new_tag = Tag(name=tag_name)
+            db.session.add(new_tag)
+            db.session.commit()
+            existing_tag = new_tag
+        post.tags.append(existing_tag)
+    return post
+
+
 
 #######################################################################################################
 ##                                                                                                   ##
@@ -173,6 +190,30 @@ def admin_posts():
     return render_template('admin-posts.html', posts=posts)
 
 
+@app.route('/admin/posts/new', methods=['POST'])
+@login_required
+def admin_posts_new():
+    published = request.form.get('published', False)  == 'on'
+    new_post = Post(
+        title=request.form['title'].strip(),
+        slug=request.form['slug'].strip(),
+        published=published,
+        abstract=request.form['abstract'].strip(),
+        abstract_image=request.form['abstract_image'].strip(),
+        content=request.form['content'].strip(),
+        user_id=current_user.id,
+    )
+    add_tags_to_post(request.form['tags'], new_post)
+    db.session.add(new_post)
+    db.session.commit()
+    return redirect(url_for('admin_posts'))
+
+@app.route('/admin/posts/delete/<int:post_id>', methods=['POST'])
+@login_required
+def admin_posts_delete(post_id):
+    db.session.delete(Post.query.get(post_id))
+    db.session.commit()
+    return redirect(url_for('admin_posts'))
 
 ################## ADMIN PAGES
 
