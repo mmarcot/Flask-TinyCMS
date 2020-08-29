@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_login import LoginManager, login_user, login_required, current_user, UserMixin, logout_user
 
+import json
+
 
 
 #######################################################################################################
@@ -76,6 +78,16 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
+
+    def get_json_for(self, *args):
+        '''
+        :*args fields to be included in the json return
+        Method that returns its fields into a JSON formatted object
+        '''
+        res = {}
+        for arg in args:
+            res[arg] = getattr(self, arg)
+        return json.dumps(res)
         
 
 class Tag(db.Model):
@@ -221,6 +233,17 @@ def admin_users_new():
 def admin_users_delete(user_id):
     user = User.query.get(user_id)
     db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('admin_users'))
+
+
+@app.route('/admin/users/edit', methods=['POST'])
+@login_required
+def admin_users_edit():
+    user_id = int(request.form['user_id'])
+    user = User.query.get(user_id)
+    user.username = request.form['new_username'].strip()
+    user.email = request.form['new_email'].strip()
     db.session.commit()
     return redirect(url_for('admin_users'))
 

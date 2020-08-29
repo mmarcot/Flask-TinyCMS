@@ -22,8 +22,8 @@
                 <td>{{ user.username }}</td>
                 <td>{{ user.email }}</td>
                 <td>
-                    <button type="button" class="open-edituserDialog btn btn-primary" data-toggle="modal" 
-                                data-target="#edit-modal" data-id="{{ user.id }}">
+                    <button type="button" class="open-edit-user-modal btn btn-primary" data-toggle="modal" 
+                                data-target="#modal-edit-user" data-user="{{ user.get_json_for('username', 'id', 'email') }}">
                         Modifer
                     </button>
                     <form action="{{ url_for('admin_users_delete', user_id=user.id) }}" method="POST" class="d-inline">
@@ -43,5 +43,24 @@
             <input type="password" name="password" placeholder="Mot de passe" class="form-control">
             <input type="submit" class="btn btn-success mt-3" value="Créer">
         </form>
+    </div>
+    <div class="modal" id="modal-edit-user">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Modifier un utilisateur</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('admin_users_edit')}}" method="POST">
+                        <input id="input-user-id" type="hidden" name="user_id" value="">
+                        <input id="input-user-username" type="text" name="new_username" placeholder="Nom d'utilisateur" class="form-control w-50 mx-auto mb-2" value="">
+                        <input id="input-user-email" type="text" name="new_email" placeholder="E-mail" class="form-control w-50 mx-auto mb-2" value="">
+                        <input id="input-user-password" type="text" disabled name="new_password" placeholder="Mot de passe" class="form-control w-50 mx-auto mb-2" value="">
+                        <input type="submit" class="btn btn-success" value="Valider">
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
