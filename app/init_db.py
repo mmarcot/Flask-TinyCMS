@@ -1,9 +1,10 @@
 from views import db, User, Post, Tag, Page
+from werkzeug.security import generate_password_hash
 
 db.drop_all()
 db.create_all()
 
-admin = User(username='admin', email='amin', password='admin')
+admin = User(username='admin', email='amin', password=generate_password_hash('admin'))
 db.session.add(admin)
 db.session.commit()
 
