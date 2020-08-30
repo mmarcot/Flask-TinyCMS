@@ -3,9 +3,10 @@
 {% block title %}Posts{% endblock %}
 
 {% block admin_content %}
-<div class="text-center mt-5">
-    <h1 class="my-5">Les articles</h1>
+<div class="text-center mt-3">
+    <h1>Les articles</h1>
 </div>
+<a class="btn btn-success my-2" href="{{ url_for('admin_posts_create') }}">Créer</a>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -28,10 +29,9 @@
             <td>{{ post.published and 'Oui' or 'Non' }}</td>
             <td>{{ post.tags_str }}</td>
             <td>
-                <button class="open-edit-post-modal btn btn-info" data-toggle="modal" data-target="#edit-post-modal" 
-                        data-post="{{ post.get_json_for('id', 'title', 'slug', 'published', 'abstract', 'abstract_image', 'content', 'tags_str') }}">
+                <a class="btn btn-primary" href="{{ url_for('admin_posts_edit', post_id=post.id) }}">
                     Modifer
-                </button>
+                </a>
                 <form action="{{ url_for('admin_posts_delete', post_id=post.id) }}" method="POST" class="d-inline">
                     <input type="hidden" name="delete" value="{{ post.id }}">
                     <input type="submit" class="btn btn-danger" value="Supprimer">
@@ -41,50 +41,4 @@
         {% endfor %}
     </tbody>
 </table>
-<div class="modal" id="edit-post-modal">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Modifier un article</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                <form action="{{ url_for('admin_posts_edit') }}" method="POST" class="form">
-                    <input type="hidden" name="post_id" class="form-control">
-                    <input type="text" name="title" placeholder="Titre" class="form-control">
-                    <input type="text" name="slug" placeholder="Slug" class="form-control my-2">
-                    <input type="text" name="tags" placeholder="Tags" class="form-control">
-                    <div class="form-check my-2">
-                        <label for="published" class="form-check-label">
-                            <input type="checkbox" name="published" id="published" checked class="form-check-input">
-                            Publier
-                        </label>
-                    </div>
-                    <input type="text" name="abstract_image" placeholder="Abstract image" class="form-control my-2">
-                    <textarea name="abstract" placeholder="Abstract text" class="form-control my-2" rows=4></textarea>
-                    <textarea name="content" placeholder="Contenu" class="form-control" rows=12></textarea>
-                    <input type="submit" class="btn btn-success mt-3" value="Valider">
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col-8 mx-auto my-5">
-    <h3>Créer un nouvel article</h3>
-    <form action="{{ url_for('admin_posts_new') }}" method="POST" class="form">
-        <input type="text" name="title" placeholder="Titre" class="form-control">
-        <input type="text" name="slug" placeholder="Slug" class="form-control my-2">
-        <input type="text" name="tags" placeholder="Tags" class="form-control">
-        <div class="form-check my-2">
-            <label for="published" class="form-check-label">
-                <input type="checkbox" name="published" id="published" checked class="form-check-input">
-                Publier
-            </label>
-        </div>
-        <input type="text" name="abstract_image" placeholder="Abstract image" class="form-control my-2">
-        <textarea name="abstract" placeholder="Abstract text" class="form-control my-2" rows=4></textarea>
-        <textarea name="content" placeholder="Contenu" class="form-control" rows=12></textarea>
-        <input type="submit" class="btn btn-success mt-3" value="Créer">
-    </form>
-</div>
 {% endblock %}

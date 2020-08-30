@@ -83,6 +83,7 @@ class Post(db.Model):
                 existing_tag = new_tag
             self.tags.append(existing_tag)
 
+
     def get_json_for(self, *args):
         '''
         Returns its fields into a JSON formatted object
@@ -204,9 +205,11 @@ def admin_posts():
     return render_template('admin-posts.html', posts=posts)
 
 
-@app.route('/admin/posts/new', methods=['POST'])
+@app.route('/admin/posts/create', methods=['GET','POST'])
 @login_required
-def admin_posts_new():
+def admin_posts_create():
+    if request.method == 'GET':
+        return render_template('admin-posts-create.html')
     published = request.form.get('published', False)  == 'on'
     new_post = Post(
         title=request.form['title'].strip(),
@@ -231,17 +234,19 @@ def admin_posts_delete(post_id):
     return redirect(url_for('admin_posts'))
 
 
-@app.route('/admin/posts/edit', methods=['POST'])
+@app.route('/admin/posts/edit/<int:post_id>', methods=['GET','POST'])
 @login_required
-def admin_posts_edit():
-    post_id = int(request.form['post_id'])
+def admin_posts_edit(post_id):
     post = Post.query.get(post_id)
+    if request.method == 'GET':
+        return render_template('admin-posts-edit.html', post=post)
     post.title = request.form['title'].strip()
     post.slug = request.form['slug'].strip()
     post.published = request.form.get('published', False)  == 'on'
     post.abstract_image = request.form['abstract_image'].strip()
     post.abstract = request.form['abstract'].strip()
     post.content = request.form['content'].strip()
+    post.tags.clear()
     post.add_tags(request.form['tags'])
     db.session.commit()
     return redirect(url_for('admin_posts'))

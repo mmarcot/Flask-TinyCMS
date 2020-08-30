@@ -1,0 +1,24 @@
+{% extends 'admin.html' %}
+
+{% block title %}Créer un nouvel article{% endblock %}
+
+{% block admin_content %}
+<div class="col-10 mx-auto my-5">
+    <h3>Créer un nouvel article</h3>
+    <form action="{{ url_for('admin_posts_create') }}" method="POST" class="form">
+        <input type="text" name="title" placeholder="Titre" class="form-control">
+        <input type="text" name="slug" placeholder="Slug" class="form-control my-2">
+        <input type="text" name="tags" placeholder="Tags" class="form-control">
+        <div class="form-check my-2">
+            <label for="published" class="form-check-label">
+                <input type="checkbox" name="published" id="published" checked class="form-check-input">
+                Publier
+            </label>
+        </div>
+        <input type="text" name="abstract_image" placeholder="Abstract image" class="form-control my-2">
+        <textarea name="abstract" placeholder="Abstract text" class="form-control my-2" rows=4></textarea>
+        <textarea name="content" placeholder="Contenu" class="form-control" rows=12></textarea>
+        <input type="submit" class="btn btn-success mt-3" value="Créer">
+    </form>
+</div>
+{% endblock %}
