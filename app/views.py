@@ -258,9 +258,11 @@ def admin_pages():
     return render_template('admin-pages.html', pages=pages)
 
 
-@app.route('/admin/pages/new', methods=['POST'])
+@app.route('/admin/pages/create', methods=['GET','POST'])
 @login_required
-def admin_pages_new():
+def admin_pages_create():
+    if request.method == 'GET':
+        return render_template('admin-pages-create.html')
     published = request.form.get('published', False)  == 'on'
     new_page = Page(
         title=request.form['title'].strip(),
@@ -282,11 +284,12 @@ def admin_pages_delete(page_id):
     return redirect(url_for('admin_pages'))
 
 
-@app.route('/admin/pages/edit', methods=['POST'])
+@app.route('/admin/pages/edit/<int:page_id>', methods=['GET','POST'])
 @login_required
-def admin_pages_edit():
-    page_id = int(request.form['page_id'])
+def admin_pages_edit(page_id):
     page = Page.query.get(page_id)
+    if request.method == 'GET':
+        return render_template('admin-pages-edit.html', page=page)
     page.title = request.form['title'].strip()
     page.nav_label = request.form['nav_label'].strip()
     page.slug = request.form['slug'].strip()

@@ -1,0 +1,22 @@
+{% extends 'admin.html' %}
+
+{% block title %}Modifier une page{% endblock %}
+
+{% block admin_content %}
+<div class="col-8 mx-auto my-5">
+    <h3>Modifier une page</h3>
+    <form action="{{ url_for('admin_pages_edit', page_id=page.id) }}" method="POST" class="form">
+        <input type="text" name="title" placeholder="Titre" class="form-control" value="{{ page.title }}">
+        <input type="text" name="nav_label" placeholder="Etiquette menu" class="form-control my-2" value="{{ page.nav_label }}">
+        <input type="text" name="slug" placeholder="Slug" class="form-control" value="{{ page.slug }}">
+        <div class="form-check my-2">
+            <label for="published" class="form-check-label">
+                <input type="checkbox" name="published" id="published" {% if page.published %}checked {% endif %}class="form-check-input">
+                Publier
+            </label>
+        </div>
+        <textarea name="content" placeholder="Contenu" class="form-control" rows=12>{{ page.content }}</textarea>
+        <input type="submit" class="btn btn-success mt-3" value="Modifier">
+    </form>
+</div>
+{% endblock %}
