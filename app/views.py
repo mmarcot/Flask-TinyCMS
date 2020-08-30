@@ -84,17 +84,6 @@ class Post(db.Model):
             self.tags.append(existing_tag)
 
 
-    def get_json_for(self, *args):
-        '''
-        Returns its fields into a JSON formatted object
-        :*args fields to be included in the json return
-        '''
-        res = {}
-        for arg in args:
-            res[arg] = getattr(self, arg)
-        return json.dumps(res)
-
-
 class Page(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
@@ -104,32 +93,12 @@ class Page(db.Model):
     creation_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     published = db.Column(db.Boolean, nullable=False, default=False)
 
-    def get_json_for(self, *args):
-        '''
-        Returns its fields into a JSON formatted object
-        :*args fields to be included in the json return
-        '''
-        res = {}
-        for arg in args:
-            res[arg] = getattr(self, arg)
-        return json.dumps(res)
-
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), nullable=False)
-
-    def get_json_for(self, *args):
-        '''
-        Returns its fields into a JSON formatted object
-        :*args fields to be included in the json return
-        '''
-        res = {}
-        for arg in args:
-            res[arg] = getattr(self, arg)
-        return json.dumps(res)
         
 
 class Tag(db.Model):
