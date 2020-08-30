@@ -3,7 +3,19 @@
 {% block title %}Login page{% endblock %}
 
 {% block site_content %}
-    <div class="col-3 mx-auto text-center p-4 m-5 border bg-light" style="border-radius: 3px">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger fade show mt-2 col-sm-6 mx-auto" role="alert">
+                    <span>{{ message }}</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="col-xl-3 col-lg-4 col-sm-6 mx-auto text-center p-4 m-5 border bg-light" style="border-radius: 3px">
         <form action="/login" method="POST">
             <input type="text" class="form-control" placeholder="E-mail or username" name="mail_or_username">
             <input type="password" class="form-control my-2" placeholder="Enter password" name="password">

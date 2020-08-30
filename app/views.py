@@ -154,7 +154,7 @@ def login():
     if user and check_password_hash(user.password, request.form['password']):
         login_user(user, remember=True)
         return redirect(url_for('admin_posts'))
-    flash('Bad login')
+    flash("Nom d'utilisateur ou mot de passe incorrect", 'error')
     return render_template('site-login.html')
 
 
@@ -193,6 +193,7 @@ def admin_posts_create():
     new_post.add_tags(request.form['tags'])
     db.session.add(new_post)
     db.session.commit()
+    flash("L'article a bien été créé")
     return redirect(url_for('admin_posts'))
 
 
@@ -201,6 +202,7 @@ def admin_posts_create():
 def admin_posts_delete(post_id):
     db.session.delete(Post.query.get(post_id))
     db.session.commit()
+    flash("Article supprimé")
     return redirect(url_for('admin_posts'))
 
 
@@ -248,6 +250,7 @@ def admin_pages_create():
     )
     db.session.add(new_page)
     db.session.commit()
+    flash('La page a bien été crée')
     return redirect(url_for('admin_pages'))
 
 
@@ -256,6 +259,7 @@ def admin_pages_create():
 def admin_pages_delete(page_id):
     db.session.delete(Page.query.get(page_id))
     db.session.commit()
+    flash("La page a bien été supprimé")
     return redirect(url_for('admin_pages'))
 
 
@@ -291,6 +295,7 @@ def admin_tags_create():
     new_tag = Tag(name=request.form['name'].strip())
     db.session.add(new_tag)
     db.session.commit()
+    flash('Le nouveau tag a bien été créé')
     return redirect(url_for('admin_tags'))
 
 
@@ -299,6 +304,7 @@ def admin_tags_create():
 def admin_tags_delete(tag_id):
     db.session.delete(Tag.query.get(tag_id))
     db.session.commit()
+    flash("Le tag a bien été supprimé")
     return redirect(url_for('admin_tags'))
 
 
@@ -335,6 +341,7 @@ def admin_users_create():
     user = User(username=username, email=email, password=generate_password_hash(password))
     db.session.add(user)
     db.session.commit()
+    flash('Le nouvel utilisateur a bien été créé')
     return redirect(url_for('admin_users'))
 
 
@@ -344,6 +351,7 @@ def admin_users_delete(user_id):
     user = User.query.get(user_id)
     db.session.delete(user)
     db.session.commit()
+    flash("L'utilisateur a bien été supprimé")
     return redirect(url_for('admin_users'))
 
 
