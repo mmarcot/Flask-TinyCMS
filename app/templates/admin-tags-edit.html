@@ -1,0 +1,13 @@
+{% extends 'admin.html' %}
+
+{% block title %}Modfifer un tag{% endblock %}
+
+{% block admin_content %}
+<div class="col-sm-6 col-lg-4 mx-auto my-5">
+    <h1>Modifier un tag</h1>
+    <form action="{{ url_for('admin_tags_edit', tag_id=tag.id) }}" method="POST" class="form">
+        <input type="text" name="name" placeholder="Nom" class="form-control" value="{{ tag.name }}">
+        <input type="submit" class="btn btn-success mt-3" value="Modifier un tag">
+    </form>
+</div>
+{% endblock %}

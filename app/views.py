@@ -305,9 +305,11 @@ def admin_tags():
     return render_template('admin-tags.html', tags=tags)
 
 
-@app.route('/admin/tags/new', methods=['POST'])
+@app.route('/admin/tags/create', methods=['POST', 'GET'])
 @login_required
-def admin_tags_new():
+def admin_tags_create():
+    if request.method == 'GET':
+        return render_template('admin-tags-create.html')
     new_tag = Tag(name=request.form['name'].strip())
     db.session.add(new_tag)
     db.session.commit()
@@ -322,13 +324,13 @@ def admin_tags_delete(tag_id):
     return redirect(url_for('admin_tags'))
 
 
-@app.route('/admin/tags/edit', methods=['POST'])
+@app.route('/admin/tags/edit/<int:tag_id>', methods=['GET','POST'])
 @login_required
-def admin_tags_edit():
-    tag_id = int(request.form['tag_id'])
+def admin_tags_edit(tag_id):
     tag = Tag.query.get(tag_id)
-    tag_name = request.form['new_tag_name']
-    tag.name = tag_name.strip()
+    if request.method == 'GET':
+        return render_template('admin-tags-edit.html', tag=tag)
+    tag.name = request.form['name'].strip()
     db.session.commit()
     return redirect(url_for('admin_tags'))
 
