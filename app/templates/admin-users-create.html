@@ -3,8 +3,10 @@
 {% block title %}Créer un utilisateur{% endblock %}
 
 {% block admin_content %}
-<div class="col-6 mx-auto my-5">
-    <h3>Créer un nouvel utilisateur</h3>
+<div class="col-sm-6 mx-auto m-3">
+    <div class="text-center">
+        <h1>Créer un utilisateur</h1>
+    </div>
     <form action="{{ url_for('admin_users_create') }}" method="POST" class="form">
         <input type="text" name="username" placeholder="Nom d'utilisateur" class="form-control">
         <input type="text" name="email" placeholder="E-mail" class="form-control my-2">

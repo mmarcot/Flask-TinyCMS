@@ -3,33 +3,33 @@
 {% block title %}Tags{% endblock %}
 
 {% block admin_content %}
-<div class="col-md-9 col-lg-7 col-xl-6 mx-auto">
-    <h1 class="mt-5">Les tags</h1>
-    <a class="btn btn-success my-2" href="{{ url_for('admin_tags_create') }}">Créer</a>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for tag in tags %}
-            <tr>
-                <td>{{ tag.id }}</td>
-                <td>{{ tag.name }}</td>
-                <td>
-                    <a class="btn btn-primary" href="{{ url_for('admin_tags_edit', tag_id=tag.id) }}">
-                        Modifer
-                    </a>
-                    <form action="{{ url_for('admin_tags_delete', tag_id=tag.id) }}" method="POST" class="d-inline">
-                        <input type="submit" class="btn btn-danger" value="Supprimer">
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="text-center mt-3">
+    <h1>Les tags</h1>
 </div>
+<a class="btn btn-success my-2" href="{{ url_for('admin_tags_create') }}">Créer</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tag in tags %}
+        <tr>
+            <td>{{ tag.id }}</td>
+            <td>{{ tag.name }}</td>
+            <td>
+                <a class="btn btn-primary" href="{{ url_for('admin_tags_edit', tag_id=tag.id) }}">
+                    Modifer
+                </a>
+                <form action="{{ url_for('admin_tags_delete', tag_id=tag.id) }}" method="POST" class="d-inline">
+                    <input type="submit" class="btn btn-danger" value="Supprimer">
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

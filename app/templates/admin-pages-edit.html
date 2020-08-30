@@ -4,7 +4,9 @@
 
 {% block admin_content %}
 <div class="m-3 ">
-    <h3>Modifier une page</h3>
+    <div class="text-center">
+        <h1>Modifier une page</h1>
+    </div>
     <form action="{{ url_for('admin_pages_edit', page_id=page.id) }}" method="POST" class="form">
         <input type="text" name="title" placeholder="Titre" class="form-control" value="{{ page.title }}">
         <input type="text" name="nav_label" placeholder="Etiquette menu" class="form-control my-2" value="{{ page.nav_label }}">
@@ -16,7 +18,7 @@
             </label>
         </div>
         <textarea name="content" placeholder="Contenu" class="form-control" rows=12>{{ page.content }}</textarea>
-        <input type="submit" class="btn btn-success mt-3" value="Modifier">
+        <input type="submit" class="btn btn-success mt-3" value="Enregistrer">
     </form>
 </div>
 {% endblock %}

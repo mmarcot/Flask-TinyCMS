@@ -4,7 +4,9 @@
 
 {% block admin_content %}
 <div class="m-3">
-    <h1>Modifer un article</h1>
+    <div class="text-center">
+        <h1>Modifer un article</h1>
+    </div>
     <form action="{{ url_for('admin_posts_edit', post_id=post.id) }}" method="POST" class="form">
         <input type="text" name="title" placeholder="Titre" class="form-control" value="{{ post.title }}">
         <input type="text" name="slug" placeholder="Slug" class="form-control my-2" value="{{ post.slug }}">
@@ -18,7 +20,7 @@
         <input type="text" name="abstract_image" placeholder="Abstract image" class="form-control my-2" value="{{ post.abstract_image }}">
         <textarea name="abstract" placeholder="Abstract text" class="form-control my-2" rows=4>{{ post.abstract }}</textarea>
         <textarea name="content" placeholder="Contenu" class="form-control" rows=12>{{ post.content }}</textarea>
-        <input type="submit" class="btn btn-success mt-3" value="Valider">
+        <input type="submit" class="btn btn-success mt-3" value="Enregistrer">
     </form>
 </div>
 {% endblock %}

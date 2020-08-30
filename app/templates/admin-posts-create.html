@@ -1,10 +1,12 @@
 {% extends 'admin.html' %}
 
-{% block title %}Créer un nouvel article{% endblock %}
+{% block title %}Créer un article{% endblock %}
 
 {% block admin_content %}
-<div class="col-10 mx-auto my-5">
-    <h3>Créer un nouvel article</h3>
+<div class="col-md-10 mx-auto m-3">
+    <div class="text-center">
+        <h1>Créer un article</h1>
+    </div>
     <form action="{{ url_for('admin_posts_create') }}" method="POST" class="form">
         <input type="text" name="title" placeholder="Titre" class="form-control">
         <input type="text" name="slug" placeholder="Slug" class="form-control my-2">
