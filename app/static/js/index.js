@@ -1,13 +1,4 @@
 $(document).ready(function(){
-    // edit users modal:
-    $('.open-edit-user-modal').click(function(){
-        var user = $(this).data('user');
-        $('#input-user-id').val(user.id);
-        $('#input-user-username').val(user.username);
-        $('#input-user-email').val(user.email);
-        $('#input-user-password').val('********');
-    });
-
     // edit pages modal:
     $('.open-edit-page-modal').click(function(){
         var page = $(this).data('page');

@@ -346,9 +346,11 @@ def admin_users():
     return render_template('admin-users.html', users=users)
 
 
-@app.route('/admin/users/new', methods=['POST'])
+@app.route('/admin/users/create', methods=['GET','POST'])
 @login_required
-def admin_users_new():
+def admin_users_create():
+    if request.method == 'GET':
+        return render_template('admin-users-create.html')
     username = request.form['username'].strip()
     email = request.form['email'].strip()
     password = request.form['password'].strip()
@@ -367,13 +369,16 @@ def admin_users_delete(user_id):
     return redirect(url_for('admin_users'))
 
 
-@app.route('/admin/users/edit', methods=['POST'])
+@app.route('/admin/users/edit/<int:user_id>', methods=['GET','POST'])
 @login_required
-def admin_users_edit():
-    user_id = int(request.form['user_id'])
+def admin_users_edit(user_id):
     user = User.query.get(user_id)
-    user.username = request.form['new_username'].strip()
-    user.email = request.form['new_email'].strip()
+    if request.method == 'GET':
+        return render_template('admin-users-edit.html', user=user)
+    user = User.query.get(user_id)
+    user.username = request.form['username'].strip()
+    user.email = request.form['email'].strip()
+    user.password = request.form['password'].strip()
     db.session.commit()
     return redirect(url_for('admin_users'))
 

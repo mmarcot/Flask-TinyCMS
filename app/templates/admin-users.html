@@ -3,64 +3,35 @@
 {% block title %}Users{% endblock %}
 
 {% block admin_content %}
-    <div class="text-center my-5">
-        <h1>Les utilisateurs</h1>
-    </div>
-    <table class="table table-striped col-md-8 col-lg-6 mx-auto">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.email }}</td>
-                <td>
-                    <button type="button" class="open-edit-user-modal btn btn-primary" data-toggle="modal" 
-                                data-target="#modal-edit-user" data-user="{{ user.get_json_for('username', 'id', 'email') }}">
-                        Modifer
-                    </button>
-                    <form action="{{ url_for('admin_users_delete', user_id=user.id) }}" method="POST" class="d-inline">
-                        <input type="submit" class="btn btn-danger" value="Supprimer">
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <div class="col-6 mx-auto my-5">
-        <h3>Créer un nouvel utilisateur</h3>
-        <form action="{{ url_for('admin_users_new') }}" method="POST" class="form">
-            <input type="hidden" name="new_user" value="1">
-            <input type="text" name="username" placeholder="Nom d'utilisateur" class="form-control">
-            <input type="text" name="email" placeholder="E-mail" class="form-control my-2">
-            <input type="password" name="password" placeholder="Mot de passe" class="form-control">
-            <input type="submit" class="btn btn-success mt-3" value="Créer">
-        </form>
-    </div>
-    <div class="modal" id="modal-edit-user">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Modifier un utilisateur</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <form action="{{ url_for('admin_users_edit')}}" method="POST">
-                        <input id="input-user-id" type="hidden" name="user_id" value="">
-                        <input id="input-user-username" type="text" name="new_username" placeholder="Nom d'utilisateur" class="form-control w-50 mx-auto mb-2" value="">
-                        <input id="input-user-email" type="text" name="new_email" placeholder="E-mail" class="form-control w-50 mx-auto mb-2" value="">
-                        <input id="input-user-password" type="text" disabled name="new_password" placeholder="Mot de passe" class="form-control w-50 mx-auto mb-2" value="">
-                        <input type="submit" class="btn btn-success" value="Valider">
-                    </form>
-                </div>
-            </div>
-        </div>
+    <div class="col-md-8 col-lg-6 mx-auto">
+        <h1 class="mt-5">Les utilisateurs</h1>
+        <a class="btn btn-success my-2" href="{{ url_for('admin_users_create') }}">Créer</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{{ url_for('admin_users_edit', user_id=user.id) }}">
+                            Modifer
+                        </a>
+                        <form action="{{ url_for('admin_users_delete', user_id=user.id) }}" method="POST" class="d-inline">
+                            <input type="submit" class="btn btn-danger" value="Supprimer">
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}
