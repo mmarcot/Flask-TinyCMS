@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect, flash, abort
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import validates
 from datetime import datetime
 from flask_login import LoginManager, login_user, login_required, current_user, UserMixin, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -54,7 +55,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     slug = db.Column(db.String(100), nullable=False,  unique=True)
-    abstract = db.Column(db.Text, nullable=False)
+    abstract = db.Column(db.Text)
     abstract_image = db.Column(db.String(200))
     content = db.Column(db.Text, nullable=False)
     creation_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
@@ -62,6 +63,11 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('posts', lazy=True))
     tags = db.relationship('Tag', secondary=tags, lazy='subquery', backref=db.backref('posts', lazy=True))
+
+    @validates('slug')
+    def validates_slug(self, key, value):
+        assert len(value) >= 1, "The slug should be at least 1 character"
+        return value
 
     @property
     def tags_str(self):
@@ -94,19 +100,45 @@ class Page(db.Model):
     creation_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     published = db.Column(db.Boolean, nullable=False, default=False)
 
+    @validates('slug')
+    def validates_slug(self, key, value):
+        assert len(value) >= 1, "The slug should be at least 1 character"
+        return value
+
+    @validates('nav_label')
+    def validates_nav_label(self, key, value):
+        assert len(value) >= 1, "The navigation label should be at least 1 character"
+        return value
+
+
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
+
+    @validates('username')
+    def validates_username(self, key, value):
+        assert len(value) >= 1, "Username should be at least 1 character"
+        return value
+
+    @validates('password')
+    def validates_password(self, key, value):
+        assert len(value) >= 1, "Password should be at least 1 character"
+        return value
+
         
 
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
 
-
+    @validates('name')
+    def validates_name(self, key, value):
+        assert len(value) >= 1, "The tag name should be at least 1 character"
+        return value
 
 
 

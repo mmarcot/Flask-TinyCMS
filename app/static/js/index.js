@@ -10,7 +10,7 @@ $(document).ready(function(){
                 .replace(/[^\w-]+/g,'')
                 ;
         }
-        slug.setAttribute('disabled', false);
+        slug.setAttribute('readonly', false);
         title.addEventListener('input', function(event) {
             slug.value = convertToSlug(title.value);
         });
