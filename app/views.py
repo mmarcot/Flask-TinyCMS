@@ -1,9 +1,12 @@
 from flask import Flask, render_template, request, url_for, redirect, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import validates
-from datetime import datetime
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import InputRequired, Email, Length
 from flask_login import LoginManager, login_user, login_required, current_user, UserMixin, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
 
 import json
 
@@ -35,6 +38,20 @@ def load_user(user_id):
 def inject_pages():
     pages = Page.query.filter_by(published=True)
     return {'site_pages': pages}
+
+
+
+#######################################################################################################
+##                                                                                                   ##
+##                                              FORMS                                                ##
+##                                                                                                   ##
+#######################################################################################################
+
+class UserCreateForm(FlaskForm):
+    username = StringField('username', validators=[InputRequired("Merci de saisir un nom d'utilisateur."), Length(5,45,"Le nom d'utilisateur doit contenir entre 5 et 45 caractères")])
+    email = StringField('email', validators=[InputRequired("Merci de saisir une adresse e-mail."), Email("L'adresse e-mail saisie n'est pas valide.")])
+    password = PasswordField('password', validators=[InputRequired('Merci de saisir un mot de passe.'), Length(5,45,"Le mot de passe doit contenir entre 5 et 45 caractères")])
+    submit = SubmitField('Créer')
 
 
 
@@ -225,16 +242,17 @@ def admin_posts_create():
     new_post.add_tags(request.form['tags'])
     db.session.add(new_post)
     db.session.commit()
-    flash("L'article a bien été créé")
+    flash("L'article '%s' a bien été créé" % new_post.title)
     return redirect(url_for('admin_posts'))
 
 
 @app.route('/admin/posts/delete/<int:post_id>', methods=['POST'])
 @login_required
 def admin_posts_delete(post_id):
-    db.session.delete(Post.query.get(post_id))
+    post = Post.query.get(post_id)
+    flash("Article '%s' supprimé" % post.title)
+    db.session.delete(post)
     db.session.commit()
-    flash("Article supprimé")
     return redirect(url_for('admin_posts'))
 
 
@@ -282,16 +300,17 @@ def admin_pages_create():
     )
     db.session.add(new_page)
     db.session.commit()
-    flash('La page a bien été crée')
+    flash("La page '%s' a bien été crée" % new_page.nav_label)
     return redirect(url_for('admin_pages'))
 
 
 @app.route('/admin/pages/delete/<int:page_id>', methods=['POST'])
 @login_required
 def admin_pages_delete(page_id):
-    db.session.delete(Page.query.get(page_id))
+    page = Page.query.get(page_id)
+    db.session.delete(page)
     db.session.commit()
-    flash("La page a bien été supprimé")
+    flash("La page '%s' a bien été supprimé" % page.nav_label)
     return redirect(url_for('admin_pages'))
 
 
@@ -327,16 +346,17 @@ def admin_tags_create():
     new_tag = Tag(name=request.form['name'].strip())
     db.session.add(new_tag)
     db.session.commit()
-    flash('Le nouveau tag a bien été créé')
+    flash("Le tag '%s' a bien été créé" % new_tag.name)
     return redirect(url_for('admin_tags'))
 
 
 @app.route('/admin/tags/delete/<int:tag_id>', methods=['POST'])
 @login_required
 def admin_tags_delete(tag_id):
-    db.session.delete(Tag.query.get(tag_id))
+    tag = Tag.query.get(tag_id)
+    db.session.delete(tag)
     db.session.commit()
-    flash("Le tag a bien été supprimé")
+    flash("Le tag '%s' a bien été supprimé" % tag.name)
     return redirect(url_for('admin_tags'))
 
 
@@ -365,25 +385,31 @@ def admin_users():
 @app.route('/admin/users/create', methods=['GET','POST'])
 @login_required
 def admin_users_create():
-    if request.method == 'GET':
-        return render_template('admin-users-create.html')
-    username = request.form['username'].strip()
-    email = request.form['email'].strip()
-    password = request.form['password']
-    user = User(username=username, email=email, password=generate_password_hash(password))
-    db.session.add(user)
-    db.session.commit()
-    flash('Le nouvel utilisateur a bien été créé')
-    return redirect(url_for('admin_users'))
+    form = UserCreateForm()
+    if form.validate_on_submit():
+        user = User(
+            username=form.username.data, 
+            email=form.email.data, 
+            password=generate_password_hash(form.password.data)
+        )
+        db.session.add(user)
+        db.session.commit()
+        flash("L'utilisateur '%s' a bien été créé" % form.username.data)
+        return redirect(url_for('admin_users'))
+    for field_name, errors in form.errors.items():
+        for error in errors:
+            flash(error, 'error')
+
+    return render_template('admin-users-create.html', form=form)
 
 
 @app.route('/admin/users/delete/<int:user_id>', methods=['POST'])
 @login_required
 def admin_users_delete(user_id):
     user = User.query.get(user_id)
+    flash("L'utilisateur '%s' a bien été supprimé" % user.username)
     db.session.delete(user)
     db.session.commit()
-    flash("L'utilisateur a bien été supprimé")
     return redirect(url_for('admin_users'))
 
 
