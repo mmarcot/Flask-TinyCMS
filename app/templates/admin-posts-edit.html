@@ -10,7 +10,7 @@
     <form action="{{ url_for('admin_posts_edit', post_id=post.id) }}" method="POST" class="form">
         <input type="text" name="title" placeholder="Titre" class="form-control" value="{{ post.title }}">
         <input type="text" name="slug" placeholder="Slug" class="form-control my-2" value="{{ post.slug }}">
-        <input type="text" name="tags" placeholder="Tags" class="form-control" value="{{ post.tags_str }}">
+        <input type="text" name="tags" placeholder="Tags" class="form-control" value="{{ post.tags_str }}" data-role="tagsinput">
         <div class="form-check my-2">
             <label for="published" class="form-check-label">
                 <input type="checkbox" name="published" id="published" {% if post.published %}checked {% endif %}class="form-check-input">

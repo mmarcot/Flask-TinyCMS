@@ -67,7 +67,7 @@ class Post(db.Model):
     def tags_str(self):
         res = ""
         for tag in self.tags:
-            res += tag.name + ', '
+            res += tag.name + ','
         return res.strip(' ,')
 
     def add_tags(self, tags):
