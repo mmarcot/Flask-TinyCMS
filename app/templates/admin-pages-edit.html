@@ -9,8 +9,8 @@
     </div>
     <form action="{{ url_for('admin_pages_edit', page_id=page.id) }}" method="POST" class="form">
         <input type="text" name="title" placeholder="Titre" class="form-control" value="{{ page.title }}">
-        <input type="text" name="nav_label" placeholder="Etiquette menu" class="form-control my-2" value="{{ page.nav_label }}">
-        <input type="text" name="slug" placeholder="Slug" class="form-control" value="{{ page.slug }}">
+        <input type="text" name="slug" placeholder="Slug" class="form-control my-2" value="{{ page.slug }}">
+        <input type="text" name="nav_label" placeholder="Etiquette menu" class="form-control" value="{{ page.nav_label }}">
         <div class="form-check my-2">
             <label for="published" class="form-check-label">
                 <input type="checkbox" name="published" id="published" {% if page.published %}checked {% endif %}class="form-check-input">
