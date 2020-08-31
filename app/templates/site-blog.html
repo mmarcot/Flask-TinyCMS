@@ -2,7 +2,7 @@
 
 {% block title %}Accueil blog{% endblock %}
 
-{% block site_content %}
+{% block content %}
     <h1>Blog content</h1>
     {% for post in posts %}
         <h2><a href="{{ url_for('post_detail', slug=post.slug) }}">{{ post.title }}</a></h2>

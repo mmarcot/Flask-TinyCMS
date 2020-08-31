@@ -2,7 +2,7 @@
 
 {% block title %}{{ post.title}}{% endblock %}
 
-{% block site_content %}
+{% block content %}
     {% autoescape off %}
         {{ post.content }}
     {% endautoescape %}
