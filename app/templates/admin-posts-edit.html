@@ -19,8 +19,14 @@
         </div>
         <input type="text" name="abstract_image" placeholder="Abstract image" class="form-control my-2" value="{{ post.abstract_image }}">
         <textarea name="abstract" placeholder="Abstract text" class="form-control my-2" rows=4>{{ post.abstract }}</textarea>
-        <textarea name="content" placeholder="Contenu" class="form-control" rows=12>{{ post.content }}</textarea>
+        <textarea name="content" id="editor">{{ post.content }}</textarea>
         <input type="submit" class="btn btn-success mt-3" value="Enregistrer">
     </form>
 </div>
+<script>
+    CKEDITOR.replace('editor', {
+        language: 'fr',
+        extraPlugins: 'justify',
+    });
+</script>
 {% endblock %}

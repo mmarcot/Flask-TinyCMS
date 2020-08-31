@@ -3,6 +3,7 @@
 {% block title %}{{ post.title}}{% endblock %}
 
 {% block site_content %}
-    <h1>{{ post.title }}</h1>
-    {{ post.content }}
+    {% autoescape off %}
+        {{ post.content }}
+    {% endautoescape %}
 {% endblock %}

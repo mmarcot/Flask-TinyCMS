@@ -17,8 +17,14 @@
                 Publier
             </label>
         </div>
-        <textarea name="content" placeholder="Contenu" class="form-control" rows=12>{{ page.content }}</textarea>
+        <textarea name="content" id="editor">{{ page.content }}</textarea>
         <input type="submit" class="btn btn-success mt-3" value="Enregistrer">
     </form>
 </div>
+<script>
+    CKEDITOR.replace('editor', {
+        language: 'fr',
+        extraPlugins: 'justify',
+    });
+</script>
 {% endblock %}
