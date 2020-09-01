@@ -9,10 +9,17 @@ $(document).ready(function(){
                 .replace(/[^\w-]+/g,'')
                 ;
         }
-        slug.setAttribute('readonly', false);
-        title.addEventListener('input', function(event) {
-            slug.value = convertToSlug(title.value);
-        });
+        let form_type = document.getElementById('form_type');
+        if(form_type) {
+            if (form_type.value == "post_create_form" || form_type.value == "page_create_form") {
+                title.addEventListener('input', function(event) {
+                    slug.value = convertToSlug(title.value);
+                });
+            }
+            else if(form_type.value == "post_edit_form" || form_type.value == "page_edit_form") {
+                slug.setAttribute('readonly', false);
+            }
+        }
     }
 
     let ace_editor_tag = document.getElementById('ace_editor');

@@ -9,6 +9,7 @@
     </div>
     <form action="{{ url_for('admin_pages_edit', page_id=page.id) }}" method="POST" class="form">
         {{ form.csrf_token }}
+        {{ form.form_type(value="page_edit_form") }}
         {{ form.title(class="form-control", placeholder="Titre") }}
         {{ form.slug(class="form-control my-2", placeholder="Slug") }}
         {{ form.nav_label(class="form-control", placeholder="Etiquette menu")}}

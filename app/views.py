@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect, flash, abo
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import validates
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, HiddenField
 from wtforms.validators import InputRequired, Email, Length, Optional
 from flask_login import LoginManager, login_user, login_required, current_user, UserMixin, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -60,6 +60,7 @@ class PostCreateForm(FlaskForm):
     abstract_image = StringField('abstract_image', validators=[Optional(),Length(1,199,"Le lien vers l'image doit contenir entre 1 et 200 caractères")])
     abstract = TextAreaField('abstract', validators=[Optional()])
     content = TextAreaField('content')
+    form_type = HiddenField()
     submit = SubmitField('Créer')
 
 class PostEditForm(PostCreateForm):
@@ -72,6 +73,7 @@ class PageCreateForm(FlaskForm):
     nav_label = StringField('nav_label', validators=[Length(1,49,"L'étiquette menu doit contenir entre 1 et 49 caractères")])
     published = BooleanField('published', default=True)
     content = TextAreaField('content')
+    form_type = HiddenField()
     submit = SubmitField('Créer')
 
 class PageEditForm(PageCreateForm):
