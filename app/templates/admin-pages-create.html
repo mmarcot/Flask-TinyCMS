@@ -8,18 +8,19 @@
         <h1>Créer une page</h1>
     </div>
     <form action="{{ url_for('admin_pages_create') }}" method="POST" class="form">
-        <input type="text" name="title" placeholder="Titre" class="form-control">
-        <input type="text" name="slug" placeholder="Slug" class="form-control my-2">
-        <input type="text" name="nav_label" placeholder="Etiquette menu" class="form-control">
+        {{ form.csrf_token }}
+        {{ form.title(class="form-control", placeholder="Titre") }}
+        {{ form.slug(class="form-control my-2", placeholder="Slug") }}
+        {{ form.nav_label(class="form-control", placeholder="Etiquette menu")}}
         <div class="form-check my-2">
             <label for="published" class="form-check-label">
-                <input type="checkbox" name="published" id="published" checked class="form-check-input">
+                {{ form.published(class="form-check-input", id="published") }}
                 Publier
             </label>
         </div>
-        <textarea name="content" hidden></textarea>
+        {{ form.content }}
         <div id="ace_editor" name="content" class="w-100" style="height: 400px;"></div>
-        <input type="submit" class="btn btn-success mt-3" value="Créer">
+        {{ form.submit(class="btn btn-success mt-3") }}
     </form>
 </div>
 {% endblock %}

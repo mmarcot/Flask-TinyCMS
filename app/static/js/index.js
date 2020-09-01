@@ -19,7 +19,7 @@ $(document).ready(function(){
     if(ace_editor_tag) {
         var editor = ace.edit("ace_editor");
 
-        var textarea = $('textarea[name="content"]');
+        var textarea = $('textarea[name="content"]').hide();
         editor.getSession().setValue(textarea.val());
         editor.getSession().on('change', function(){
             textarea.val(editor.getSession().getValue());

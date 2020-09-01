@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect, flash, abo
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import validates
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
 from wtforms.validators import InputRequired, Email, Length, Optional
 from flask_login import LoginManager, login_user, login_required, current_user, UserMixin, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -40,12 +40,29 @@ def inject_pages():
     return {'site_pages': pages}
 
 
+def flash_form_errors(form):
+    for field_name, errors in form.errors.items():
+        for error in errors:
+            flash(error, 'error')
+
 
 #######################################################################################################
 ##                                                                                                   ##
 ##                                              FORMS                                                ##
 ##                                                                                                   ##
 #######################################################################################################
+
+class PageCreateForm(FlaskForm):
+    title = StringField('title', validators=[Length(1,199,"Le titre doit contenir entre 1 et 200 caractères")])
+    slug = StringField('slug', validators=[Length(1,199,"Le slug doit contenir entre 1 et 200 caractères")])
+    nav_label = StringField('nav_label', validators=[Length(1,49,"L'étiquette menu doit contenir entre 1 et 49 caractères")])
+    published = BooleanField('published', default=True)
+    content = TextAreaField('content', validators=[InputRequired("Merci de saisir le contenu de votre page")])
+    submit = SubmitField('Créer')
+
+class PageEditForm(PageCreateForm):
+    submit = SubmitField('Enregistrer')
+
 
 class UserCreateForm(FlaskForm):
     username = StringField('username', validators=[InputRequired("Merci de saisir un nom d'utilisateur."), Length(5,45,"Le nom d'utilisateur doit contenir entre 5 et 45 caractères")])
@@ -123,7 +140,7 @@ class Page(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     nav_label = db.Column(db.String(50), nullable=False)
-    slug = db.Column(db.String(100), nullable=False, unique=True)
+    slug = db.Column(db.String(200), nullable=False, unique=True)
     content = db.Column(db.Text, nullable=False)
     creation_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     published = db.Column(db.Boolean, nullable=False, default=False)
@@ -299,20 +316,21 @@ def admin_pages():
 @app.route('/admin/pages/create', methods=['GET','POST'])
 @login_required
 def admin_pages_create():
-    if request.method == 'GET':
-        return render_template('admin-pages-create.html')
-    published = request.form.get('published', False)  == 'on'
-    new_page = Page(
-        title=request.form['title'].strip(),
-        nav_label=request.form['nav_label'].strip(),
-        slug=request.form['slug'].strip(),
-        content=request.form['content'].strip(),
-        published=published,
-    )
-    db.session.add(new_page)
-    db.session.commit()
-    flash("La page '%s' a bien été crée" % new_page.nav_label)
-    return redirect(url_for('admin_pages'))
+    form = PageCreateForm()
+    if form.validate_on_submit():
+        new_page = Page(
+            title = form.title.data,
+            nav_label = form.nav_label.data,
+            slug = form.slug.data,
+            content = form.content.data,
+            published = form.published.data,
+        )
+        db.session.add(new_page)
+        db.session.commit()
+        flash("La page '%s' a bien été crée" % new_page.nav_label)
+        return redirect(url_for('admin_pages'))
+    flash_form_errors(form)
+    return render_template('admin-pages-create.html', form=form)
 
 
 @app.route('/admin/pages/delete/<int:page_id>', methods=['POST'])
@@ -329,15 +347,24 @@ def admin_pages_delete(page_id):
 @login_required
 def admin_pages_edit(page_id):
     page = Page.query.get(page_id)
-    if request.method == 'GET':
-        return render_template('admin-pages-edit.html', page=page)
-    page.title = request.form['title'].strip()
-    page.nav_label = request.form['nav_label'].strip()
-    page.slug = request.form['slug'].strip()
-    page.published = request.form.get('published', False)  == 'on'
-    page.content = request.form['content'].strip()
-    db.session.commit()
-    return redirect(url_for('admin_pages'))
+    form = PageEditForm()
+    if form.validate_on_submit():
+        page.title = form.title.data
+        page.nav_label = form.nav_label.data
+        page.slug = form.slug.data
+        page.published = form.published.data
+        page.content = form.content.data
+        db.session.commit()
+        return redirect(url_for('admin_pages'))
+    flash_form_errors(form)
+    form.title.data = page.title
+    form.nav_label.data = page.nav_label
+    form.slug.data = page.slug
+    form.published.data = page.published
+    form.content.data = page.content
+    return render_template('admin-pages-edit.html', page=page, form=form)
+        
+
 
 
 ############ ADMIN TAGS
@@ -359,9 +386,7 @@ def admin_tags_create():
         db.session.commit()
         flash("Le tag '%s' a bien été créé" % new_tag.name)
         return redirect(url_for('admin_tags'))
-    for field_name, errors in form.errors.items():
-        for error in errors:
-            flash(error, 'error')
+    flash_form_errors(form)
     return render_template('admin-tags-create.html', form=form)
 
 
@@ -384,9 +409,7 @@ def admin_tags_edit(tag_id):
         tag.name = form.name.data
         db.session.commit()
         return redirect(url_for('admin_tags'))
-    for field_name, errors in form.errors.items():
-        for error in errors:
-            flash(error, 'error')
+    flash_form_errors(form)
     form.name.data = tag.name
     return render_template('admin-tags-edit.html', tag=tag, form=form)
 
@@ -416,9 +439,7 @@ def admin_users_create():
         db.session.commit()
         flash("L'utilisateur '%s' a bien été créé" % form.username.data)
         return redirect(url_for('admin_users'))
-    for field_name, errors in form.errors.items():
-        for error in errors:
-            flash(error, 'error')
+    flash_form_errors(form)
     return render_template('admin-users-create.html', form=form)
 
 
@@ -444,9 +465,7 @@ def admin_users_edit(user_id):
             user.password = generate_password_hash(form.password.data)
         db.session.commit()
         return redirect(url_for('admin_users'))
-    for field_name, errors in form.errors.items():
-        for error in errors:
-            flash(error, 'error')
+    flash_form_errors(form)
     form.username.data = user.username
     form.email.data = user.email
     return render_template('admin-users-edit.html', user=user, form=form)
