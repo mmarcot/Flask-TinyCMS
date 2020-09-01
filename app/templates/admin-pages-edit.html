@@ -17,14 +17,9 @@
                 Publier
             </label>
         </div>
-        <textarea name="content" id="editor">{{ page.content }}</textarea>
+        <textarea name="content" hidden>{{ page.content }}</textarea>
+        <div id="ace_editor" name="content" class="w-100" style="height: 400px;">{{ page.content }}</div>
         <input type="submit" class="btn btn-success mt-3" value="Enregistrer">
     </form>
 </div>
-<script>
-    CKEDITOR.replace('editor', {
-        language: 'fr',
-        extraPlugins: 'justify',
-    });
-</script>
 {% endblock %}

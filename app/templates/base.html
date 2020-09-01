@@ -14,16 +14,18 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>   
-    <!-- CKeditor -->
-    <script src="https://cdn.ckeditor.com/4.13.0/standard-all/ckeditor.js"></script>
-    
-    {% block base_content %}{% endblock %}
-    
     <!-- Bootstrap and JQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- CK editor 4 -->
+    <script src="https://cdn.ckeditor.com/4.13.0/standard-all/ckeditor.js"></script>
+    <!-- Ace editor -->
+    <script src="{{ url_for('static', filename='js/ace/ace.js') }}" type="text/javascript" charset="utf-8"></script>
+    <script src="{{ url_for('static', filename='js/ace/mode-html.js') }}" type="text/javascript" charset="utf-8"></script>
     <!-- custom -->
     <script src="{{ url_for('static', filename='js/tagsinput.js') }}"></script>
     <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    
+    {% block base_content %}{% endblock %}
 </html>

@@ -17,14 +17,9 @@
                 Publier
             </label>
         </div>
-        <textarea name="content" id="editor"></textarea>
+        <textarea name="content" hidden></textarea>
+        <div id="ace_editor" name="content" class="w-100" style="height: 400px;"></div>
         <input type="submit" class="btn btn-success mt-3" value="Créer">
     </form>
 </div>
-<script>
-    CKEDITOR.replace('editor', {
-        language: 'fr',
-        extraPlugins: 'justify',
-    });
-</script>
 {% endblock %}
