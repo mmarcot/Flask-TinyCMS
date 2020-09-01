@@ -57,6 +57,13 @@ class UserEditForm(UserCreateForm):
     password = PasswordField('password', validators=[Optional(), Length(5,45,"Le mot de passe doit contenir entre 5 et 45 caractères")])
     submit = SubmitField('Enregistrer')
 
+class TagCreateForm(FlaskForm):
+    name = StringField('name', validators=[Length(2,45, "Le tag doit contenir entre 2 et 45 caractères")])
+    submit = SubmitField('Créer')
+
+class TagEditForm(TagCreateForm):
+    submit = SubmitField('Enregistrer')
+
 
 
 #######################################################################################################
@@ -345,13 +352,17 @@ def admin_tags():
 @app.route('/admin/tags/create', methods=['POST', 'GET'])
 @login_required
 def admin_tags_create():
-    if request.method == 'GET':
-        return render_template('admin-tags-create.html')
-    new_tag = Tag(name=request.form['name'].strip())
-    db.session.add(new_tag)
-    db.session.commit()
-    flash("Le tag '%s' a bien été créé" % new_tag.name)
-    return redirect(url_for('admin_tags'))
+    form = TagCreateForm()
+    if form.validate_on_submit():
+        new_tag = Tag(name=form.name.data)
+        db.session.add(new_tag)
+        db.session.commit()
+        flash("Le tag '%s' a bien été créé" % new_tag.name)
+        return redirect(url_for('admin_tags'))
+    for field_name, errors in form.errors.items():
+        for error in errors:
+            flash(error, 'error')
+    return render_template('admin-tags-create.html', form=form)
 
 
 @app.route('/admin/tags/delete/<int:tag_id>', methods=['POST'])
@@ -368,11 +379,16 @@ def admin_tags_delete(tag_id):
 @login_required
 def admin_tags_edit(tag_id):
     tag = Tag.query.get(tag_id)
-    if request.method == 'GET':
-        return render_template('admin-tags-edit.html', tag=tag)
-    tag.name = request.form['name'].strip()
-    db.session.commit()
-    return redirect(url_for('admin_tags'))
+    form = TagEditForm()
+    if form.validate_on_submit():
+        tag.name = form.name.data
+        db.session.commit()
+        return redirect(url_for('admin_tags'))
+    for field_name, errors in form.errors.items():
+        for error in errors:
+            flash(error, 'error')
+    form.name.data = tag.name
+    return render_template('admin-tags-edit.html', tag=tag, form=form)
 
 
 
