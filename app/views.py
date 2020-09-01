@@ -59,7 +59,7 @@ class PostCreateForm(FlaskForm):
     published = BooleanField('published', default=True)
     abstract_image = StringField('abstract_image', validators=[Optional(),Length(1,199,"Le lien vers l'image doit contenir entre 1 et 200 caractères")])
     abstract = TextAreaField('abstract', validators=[Optional()])
-    content = TextAreaField('content', validators=[InputRequired("Merci de saisir le contenu de l'article")])
+    content = TextAreaField('content')
     submit = SubmitField('Créer')
 
 class PostEditForm(PostCreateForm):
@@ -71,7 +71,7 @@ class PageCreateForm(FlaskForm):
     slug = StringField('slug', validators=[Length(1,199,"Le slug doit contenir entre 1 et 200 caractères")])
     nav_label = StringField('nav_label', validators=[Length(1,49,"L'étiquette menu doit contenir entre 1 et 49 caractères")])
     published = BooleanField('published', default=True)
-    content = TextAreaField('content', validators=[InputRequired("Merci de saisir le contenu de votre page")])
+    content = TextAreaField('content')
     submit = SubmitField('Créer')
 
 class PageEditForm(PageCreateForm):
@@ -117,7 +117,7 @@ class Post(db.Model):
     slug = db.Column(db.String(200), nullable=False,  unique=True)
     abstract = db.Column(db.Text)
     abstract_image = db.Column(db.String(200))
-    content = db.Column(db.Text, nullable=False)
+    content = db.Column(db.Text)
     creation_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     published = db.Column(db.Boolean, nullable=False, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -156,7 +156,7 @@ class Page(db.Model):
     title = db.Column(db.String(200), nullable=False)
     nav_label = db.Column(db.String(50), nullable=False)
     slug = db.Column(db.String(200), nullable=False, unique=True)
-    content = db.Column(db.Text, nullable=False)
+    content = db.Column(db.Text)
     creation_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     published = db.Column(db.Boolean, nullable=False, default=False)
 
