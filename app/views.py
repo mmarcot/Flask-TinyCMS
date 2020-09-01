@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import validates
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, Email, Length
+from wtforms.validators import InputRequired, Email, Length, Optional
 from flask_login import LoginManager, login_user, login_required, current_user, UserMixin, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
@@ -50,8 +50,12 @@ def inject_pages():
 class UserCreateForm(FlaskForm):
     username = StringField('username', validators=[InputRequired("Merci de saisir un nom d'utilisateur."), Length(5,45,"Le nom d'utilisateur doit contenir entre 5 et 45 caractères")])
     email = StringField('email', validators=[InputRequired("Merci de saisir une adresse e-mail."), Email("L'adresse e-mail saisie n'est pas valide.")])
-    password = PasswordField('password', validators=[InputRequired('Merci de saisir un mot de passe.'), Length(5,45,"Le mot de passe doit contenir entre 5 et 45 caractères")])
+    password = PasswordField('password', validators=[Length(5,45,"Le mot de passe doit contenir entre 5 et 45 caractères")])
     submit = SubmitField('Créer')
+
+class UserEditForm(UserCreateForm):
+    password = PasswordField('password', validators=[Optional(), Length(5,45,"Le mot de passe doit contenir entre 5 et 45 caractères")])
+    submit = SubmitField('Enregistrer')
 
 
 
@@ -399,7 +403,6 @@ def admin_users_create():
     for field_name, errors in form.errors.items():
         for error in errors:
             flash(error, 'error')
-
     return render_template('admin-users-create.html', form=form)
 
 
@@ -416,14 +419,19 @@ def admin_users_delete(user_id):
 @app.route('/admin/users/edit/<int:user_id>', methods=['GET','POST'])
 @login_required
 def admin_users_edit(user_id):
+    form = UserEditForm()
     user = User.query.get(user_id)
-    if request.method == 'GET':
-        return render_template('admin-users-edit.html', user=user)
-    user = User.query.get(user_id)
-    user.username = request.form['username'].strip()
-    user.email = request.form['email'].strip()
-    if request.form.get('password', '').strip():
-        user.password = generate_password_hash(request.form['password'])
-    db.session.commit()
-    return redirect(url_for('admin_users'))
+    if form.validate_on_submit():
+        user.username = form.username.data
+        user.email = form.email.data
+        if form.password.data:
+            user.password = generate_password_hash(form.password.data)
+        db.session.commit()
+        return redirect(url_for('admin_users'))
+    for field_name, errors in form.errors.items():
+        for error in errors:
+            flash(error, 'error')
+    form.username.data = user.username
+    form.email.data = user.email
+    return render_template('admin-users-edit.html', user=user, form=form)
 
