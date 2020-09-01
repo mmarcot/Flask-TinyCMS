@@ -8,19 +8,20 @@
         <h1>Créer un article</h1>
     </div>
     <form action="{{ url_for('admin_posts_create') }}" method="POST" class="form">
-        <input type="text" name="title" placeholder="Titre" class="form-control">
-        <input type="text" name="slug" placeholder="Slug" class="form-control my-2">
-        <input type="text" name="tags" placeholder="Tags" class="form-control" data-role="tagsinput">
+        {{ form.csrf_token }}
+        {{ form.title(class="form-control", placeholder="Titre") }}
+        {{ form.slug(class="form-control my-2", placeholder="Slug") }}
+        {{ form.tags(class="form-control", placeholder="Tags") }}
         <div class="form-check my-2">
             <label for="published" class="form-check-label">
-                <input type="checkbox" name="published" id="published" checked class="form-check-input">
+                {{ form.published(class="form-check-input") }}
                 Publier
             </label>
         </div>
-        <input type="text" name="abstract_image" placeholder="Abstract image" class="form-control my-2">
-        <textarea name="abstract" placeholder="Abstract text" class="form-control my-2" rows=4></textarea>
-        <textarea name="content" id="editor"></textarea>
-        <input type="submit" class="btn btn-success mt-3" value="Créer">
+        {{ form.abstract_image(class="form-control my-2", placeholder="Abstract image") }}
+        {{ form.abstract(class="form-control my-2", placeholder="Abstract text") }}
+        {{ form.content(id="editor") }}
+        {{ form.submit(class="btn btn-success mt-3") }}
     </form>
 </div>
 <script>

@@ -52,6 +52,20 @@ def flash_form_errors(form):
 ##                                                                                                   ##
 #######################################################################################################
 
+class PostCreateForm(FlaskForm):
+    title = StringField('title', validators=[Length(1,199,"Le titre doit contenir entre 1 et 200 caractères")])
+    slug = StringField('slug', validators=[Length(1,199,"Le slug doit contenir entre 1 et 200 caractères")])
+    tags = StringField('tags', render_kw={"data-role":"tagsinput"})
+    published = BooleanField('published', default=True)
+    abstract_image = StringField('abstract_image', validators=[Optional(),Length(1,199,"Le lien vers l'image doit contenir entre 1 et 200 caractères")])
+    abstract = TextAreaField('abstract', validators=[Optional()])
+    content = TextAreaField('content', validators=[InputRequired("Merci de saisir le contenu de l'article")])
+    submit = SubmitField('Créer')
+
+class PostEditForm(PostCreateForm):
+    submit = SubmitField('Enregistrer')
+
+
 class PageCreateForm(FlaskForm):
     title = StringField('title', validators=[Length(1,199,"Le titre doit contenir entre 1 et 200 caractères")])
     slug = StringField('slug', validators=[Length(1,199,"Le slug doit contenir entre 1 et 200 caractères")])
@@ -73,6 +87,7 @@ class UserCreateForm(FlaskForm):
 class UserEditForm(UserCreateForm):
     password = PasswordField('password', validators=[Optional(), Length(5,45,"Le mot de passe doit contenir entre 5 et 45 caractères")])
     submit = SubmitField('Enregistrer')
+
 
 class TagCreateForm(FlaskForm):
     name = StringField('name', validators=[Length(2,45, "Le tag doit contenir entre 2 et 45 caractères")])
@@ -98,8 +113,8 @@ tags = db.Table('tags',
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    slug = db.Column(db.String(100), nullable=False,  unique=True)
+    title = db.Column(db.String(200), nullable=False)
+    slug = db.Column(db.String(200), nullable=False,  unique=True)
     abstract = db.Column(db.Text)
     abstract_image = db.Column(db.String(200))
     content = db.Column(db.Text, nullable=False)
@@ -255,23 +270,24 @@ def admin_posts():
 @app.route('/admin/posts/create', methods=['GET','POST'])
 @login_required
 def admin_posts_create():
-    if request.method == 'GET':
-        return render_template('admin-posts-create.html')
-    published = request.form.get('published', False)  == 'on'
-    new_post = Post(
-        title=request.form['title'].strip(),
-        slug=request.form['slug'].strip(),
-        published=published,
-        abstract=request.form['abstract'].strip(),
-        abstract_image=request.form['abstract_image'].strip(),
-        content=request.form['content'].strip(),
-        user_id=current_user.id,
-    )
-    new_post.add_tags(request.form['tags'])
-    db.session.add(new_post)
-    db.session.commit()
-    flash("L'article '%s' a bien été créé" % new_post.title)
-    return redirect(url_for('admin_posts'))
+    form = PostCreateForm()
+    if form.validate_on_submit():
+        new_post = Post(
+            title = form.title.data,
+            slug = form.slug.data,
+            published = form.published.data,
+            abstract = form.abstract.data,
+            abstract_image = form.abstract_image.data,
+            content = form.content.data,
+            user_id = current_user.id,
+        )
+        new_post.add_tags(form.tags.data)
+        db.session.add(new_post)
+        db.session.commit()
+        flash("L'article '%s' a bien été créé" % new_post.title)
+        return redirect(url_for('admin_posts'))
+    flash_form_errors(form)
+    return render_template('admin-posts-create.html', form=form)
 
 
 @app.route('/admin/posts/delete/<int:post_id>', methods=['POST'])
@@ -288,18 +304,26 @@ def admin_posts_delete(post_id):
 @login_required
 def admin_posts_edit(post_id):
     post = Post.query.get(post_id)
-    if request.method == 'GET':
-        return render_template('admin-posts-edit.html', post=post)
-    post.title = request.form['title'].strip()
-    post.slug = request.form['slug'].strip()
-    post.published = request.form.get('published', False)  == 'on'
-    post.abstract_image = request.form['abstract_image'].strip()
-    post.abstract = request.form['abstract'].strip()
-    post.content = request.form['content'].strip()
-    post.tags.clear()
-    post.add_tags(request.form['tags'])
-    db.session.commit()
-    return redirect(url_for('admin_posts'))
+    form = PostEditForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.slug = form.slug.data
+        post.published = form.published.data
+        post.abstract_image = form.abstract_image.data
+        post.abstract = form.abstract.data
+        post.content = form.content.data
+        post.tags.clear()
+        post.add_tags(request.form['tags'])
+        db.session.commit()
+        return redirect(url_for('admin_posts'))
+    flash_form_errors(form)
+    form.title.data = post.title
+    form.slug.data = post.slug
+    form.published.data = post.published
+    form.abstract_image.data = post.abstract_image
+    form.abstract.data = post.abstract
+    form.content.data = post.content
+    return render_template('admin-posts-edit.html', post=post, form=form)
 
 
 
