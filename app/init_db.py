@@ -1,4 +1,4 @@
-from views import db, User, Post, Tag, Page
+from views import db, User, Post, Tag, Page, Configuration
 from werkzeug.security import generate_password_hash
 
 db.drop_all()
@@ -47,6 +47,13 @@ page = Page(
     published=True,
 )
 db.session.add(page)
+db.session.commit()
+
+config = Configuration(
+    name="language",
+    value="fr",
+)
+db.session.add(config)
 db.session.commit()
 
 print('Database initialized')
