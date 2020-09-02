@@ -53,50 +53,50 @@ def flash_form_errors(form):
 #######################################################################################################
 
 class PostCreateForm(FlaskForm):
-    title = StringField('title', validators=[Length(1,199,"Le titre doit contenir entre 1 et 200 caractères")])
-    slug = StringField('slug', validators=[Length(1,199,"Le slug doit contenir entre 1 et 200 caractères")])
-    tags = StringField('tags', render_kw={"data-role":"tagsinput"})
-    published = BooleanField('published', default=True)
-    abstract_image = StringField('abstract_image', validators=[Optional(),Length(1,199,"Le lien vers l'image doit contenir entre 1 et 200 caractères")])
-    abstract = TextAreaField('abstract', validators=[Optional()])
-    content = TextAreaField('content')
+    title = StringField('Title', validators=[Length(1,199,"Le titre doit contenir entre 1 et 200 caractères")])
+    slug = StringField('Slug', validators=[Length(1,199,"Le slug doit contenir entre 1 et 200 caractères")])
+    tags = StringField('Tags', render_kw={"data-role":"tagsinput"})
+    published = BooleanField('Published', default=True)
+    abstract_image = StringField('Abstract image', validators=[Optional(),Length(1,199,"Le lien vers l'image doit contenir entre 1 et 200 caractères")])
+    abstract = TextAreaField('Abstract', validators=[Optional()])
+    content = TextAreaField('Content')
     form_type = HiddenField()
-    submit = SubmitField('Créer')
+    submit = SubmitField('Create')
 
 class PostEditForm(PostCreateForm):
-    submit = SubmitField('Enregistrer')
+    submit = SubmitField('Save')
 
 
 class PageCreateForm(FlaskForm):
-    title = StringField('title', validators=[Length(1,199,"Le titre doit contenir entre 1 et 200 caractères")])
-    slug = StringField('slug', validators=[Length(1,199,"Le slug doit contenir entre 1 et 200 caractères")])
-    nav_label = StringField('nav_label', validators=[Length(1,49,"L'étiquette menu doit contenir entre 1 et 49 caractères")])
-    published = BooleanField('published', default=True)
-    content = TextAreaField('content')
+    title = StringField('Title', validators=[Length(1,199,"Le titre doit contenir entre 1 et 200 caractères")])
+    slug = StringField('Slug', validators=[Length(1,199,"Le slug doit contenir entre 1 et 200 caractères")])
+    nav_label = StringField('Navigation label', validators=[Length(1,49,"L'étiquette menu doit contenir entre 1 et 49 caractères")])
+    published = BooleanField('Published', default=True)
+    content = TextAreaField('Content')
     form_type = HiddenField()
-    submit = SubmitField('Créer')
+    submit = SubmitField('Create')
 
 class PageEditForm(PageCreateForm):
-    submit = SubmitField('Enregistrer')
+    submit = SubmitField('Save')
 
 
 class UserCreateForm(FlaskForm):
-    username = StringField('username', validators=[InputRequired("Merci de saisir un nom d'utilisateur."), Length(5,45,"Le nom d'utilisateur doit contenir entre 5 et 45 caractères")])
-    email = StringField('email', validators=[InputRequired("Merci de saisir une adresse e-mail."), Email("L'adresse e-mail saisie n'est pas valide.")])
-    password = PasswordField('password', validators=[Length(5,45,"Le mot de passe doit contenir entre 5 et 45 caractères")])
-    submit = SubmitField('Créer')
+    username = StringField('Username', validators=[InputRequired("Merci de saisir un nom d'utilisateur."), Length(5,45,"Le nom d'utilisateur doit contenir entre 5 et 45 caractères")])
+    email = StringField('Email', validators=[InputRequired("Merci de saisir une adresse e-mail."), Email("L'adresse e-mail saisie n'est pas valide.")])
+    password = PasswordField('Password', validators=[Length(5,45,"Le mot de passe doit contenir entre 5 et 45 caractères")])
+    submit = SubmitField('Create')
 
 class UserEditForm(UserCreateForm):
-    password = PasswordField('password', validators=[Optional(), Length(5,45,"Le mot de passe doit contenir entre 5 et 45 caractères")])
-    submit = SubmitField('Enregistrer')
+    password = PasswordField('Password', validators=[Optional(), Length(5,45,"Le mot de passe doit contenir entre 5 et 45 caractères")])
+    submit = SubmitField('Save')
 
 
 class TagCreateForm(FlaskForm):
-    name = StringField('name', validators=[Length(2,45, "Le tag doit contenir entre 2 et 45 caractères")])
-    submit = SubmitField('Créer')
+    name = StringField('Name', validators=[Length(2,45, "Le tag doit contenir entre 2 et 45 caractères")])
+    submit = SubmitField('Create')
 
 class TagEditForm(TagCreateForm):
-    submit = SubmitField('Enregistrer')
+    submit = SubmitField('Save')
 
 
 class AdminConfigurationForm(FlaskForm):
@@ -104,7 +104,7 @@ class AdminConfigurationForm(FlaskForm):
         ('en', 'English'), 
         ('fr', 'Français'),
     ])
-    submit = SubmitField('Enregistrer')
+    submit = SubmitField('Save')
 
 
 
