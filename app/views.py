@@ -356,6 +356,7 @@ def admin_posts_edit(post_id):
     form.abstract_image.data = post.abstract_image
     form.abstract.data = post.abstract
     form.content.data = post.content
+    form.tags.data = post.tags_str
     return render_template('admin-posts-edit.html', post=post, form=form)
 
 
