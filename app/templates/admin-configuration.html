@@ -1,0 +1,21 @@
+{% extends 'admin.html' %}
+
+{% block title %}Configuration{% endblock %}
+
+{% block content %}
+<div class="col-md-10 mx-auto m-3">
+    <div class="text-center">
+        <h1>Configuration</h1>
+    </div>
+    <form action="{{ url_for('admin_configuration') }}" method="POST">
+        {{ form.csrf_token }}
+        <div class="form-group row">
+            {{ form.language.label(class="col-sm-2 col-form-label") }}
+            <div class="col-sm-10">
+              {{ form.language(class="form-control") }}
+            </div>
+        </div>
+        {{ form.submit(class="btn btn-success mt-3") }}
+    </form>
+</div>
+{% endblock %}

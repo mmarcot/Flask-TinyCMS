@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, url_for, redirect, flash, abo
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import validates
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, HiddenField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, HiddenField, SelectField
 from wtforms.validators import InputRequired, Email, Length, Optional
 from flask_login import LoginManager, login_user, login_required, current_user, UserMixin, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -96,6 +96,14 @@ class TagCreateForm(FlaskForm):
     submit = SubmitField('Créer')
 
 class TagEditForm(TagCreateForm):
+    submit = SubmitField('Enregistrer')
+
+
+class AdminConfigurationForm(FlaskForm):
+    language = SelectField('Langage', choices=[
+        ('en', 'English'), 
+        ('fr', 'Français'),
+    ])
     submit = SubmitField('Enregistrer')
 
 
@@ -204,7 +212,6 @@ class Tag(db.Model):
 
 
 
-
 #######################################################################################################
 ##                                                                                                   ##
 ##                                              VIEWS                                                ##
@@ -257,6 +264,15 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+@app.route('/admin/configuration', methods=['GET', 'POST'])
+@login_required
+def admin_configuration():
+    form = AdminConfigurationForm()
+    if form.validate_on_submit():
+        pass
+    return render_template('admin-configuration.html', form=form)
 
 
 
