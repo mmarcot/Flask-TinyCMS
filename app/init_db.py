@@ -49,11 +49,5 @@ page = Page(
 db.session.add(page)
 db.session.commit()
 
-config = Configuration(
-    name="language",
-    value="fr",
-)
-db.session.add(config)
-db.session.commit()
 
 print('Database initialized')

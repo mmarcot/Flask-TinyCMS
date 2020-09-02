@@ -213,26 +213,9 @@ class Tag(db.Model):
 
 class Configuration(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False)
-    value = db.Column(db.String(200))
-
-    @classmethod
-    def get_config(cls, name):
-        config_line = cls.query.filter_by(name=name).first()
-        if config_line:
-            return config_line.value
-        else:
-            return None
-
-    @classmethod
-    def set_config(cls, name, value):
-        config_line = cls.query.filter_by(name=name).first()
-        if config_line:
-            config_line.value = value
-            db.session.commit()
-            return True
-        else:
-            return False
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=True)
+    user = db.relationship('User', backref=db.backref('config', lazy=True))
+    language = db.Column(db.String(50), default='en')
     
 
 #######################################################################################################
@@ -293,11 +276,17 @@ def logout():
 @login_required
 def admin_configuration():
     form = AdminConfigurationForm()
+    config = Configuration.query.filter_by(user_id=current_user.id).first()
+    if not config:
+        config = Configuration(user_id=current_user.id)
+        db.session.add(config)
+        db.session.commit()
     if form.validate_on_submit():
-        Configuration.set_config('language', form.language.data)
+        config.language = form.language.data
+        db.session.commit()
         flash('Configuration enregistrée')
         return redirect(url_for('admin_configuration'))
-    form.language.data = Configuration.get_config('language')
+    form.language.data = config.language
     return render_template('admin-configuration.html', form=form)
 
 
