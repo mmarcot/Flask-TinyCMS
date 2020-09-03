@@ -43,7 +43,7 @@ def inject_pages():
 def flash_form_errors(form):
     for field_name, errors in form.errors.items():
         for error in errors:
-            flash(error, 'error')
+            flash(error, 'danger')
 
 
 #######################################################################################################
@@ -261,7 +261,7 @@ def login():
     if user and check_password_hash(user.password, request.form['password']):
         login_user(user, remember=True)
         return redirect(url_for('admin_posts'))
-    flash("Nom d'utilisateur ou mot de passe incorrect", 'error')
+    flash("Nom d'utilisateur ou mot de passe incorrect", 'danger')
     return render_template('site-login.html')
 
 
@@ -284,7 +284,7 @@ def admin_configuration():
     if form.validate_on_submit():
         config.language = form.language.data
         db.session.commit()
-        flash('Configuration enregistrée')
+        flash('Configuration enregistrée', 'info')
         return redirect(url_for('admin_configuration'))
     form.language.data = config.language
     return render_template('admin-configuration.html', form=form)
@@ -317,7 +317,7 @@ def admin_posts_create():
         new_post.add_tags(form.tags.data)
         db.session.add(new_post)
         db.session.commit()
-        flash("L'article '%s' a bien été créé" % new_post.title)
+        flash("L'article '%s' a bien été créé" % new_post.title, 'info')
         return redirect(url_for('admin_posts'))
     flash_form_errors(form)
     return render_template('admin-posts-create.html', form=form)
@@ -327,7 +327,7 @@ def admin_posts_create():
 @login_required
 def admin_posts_delete(post_id):
     post = Post.query.get(post_id)
-    flash("Article '%s' supprimé" % post.title)
+    flash("Article '%s' supprimé" % post.title, 'info')
     db.session.delete(post)
     db.session.commit()
     return redirect(url_for('admin_posts'))
@@ -385,7 +385,7 @@ def admin_pages_create():
         )
         db.session.add(new_page)
         db.session.commit()
-        flash("La page '%s' a bien été crée" % new_page.nav_label)
+        flash("La page '%s' a bien été crée" % new_page.nav_label, 'info')
         return redirect(url_for('admin_pages'))
     flash_form_errors(form)
     return render_template('admin-pages-create.html', form=form)
@@ -397,7 +397,7 @@ def admin_pages_delete(page_id):
     page = Page.query.get(page_id)
     db.session.delete(page)
     db.session.commit()
-    flash("La page '%s' a bien été supprimé" % page.nav_label)
+    flash("La page '%s' a bien été supprimé" % page.nav_label, 'info')
     return redirect(url_for('admin_pages'))
 
 
@@ -442,7 +442,7 @@ def admin_tags_create():
         new_tag = Tag(name=form.name.data)
         db.session.add(new_tag)
         db.session.commit()
-        flash("Le tag '%s' a bien été créé" % new_tag.name)
+        flash("Le tag '%s' a bien été créé" % new_tag.name, 'info')
         return redirect(url_for('admin_tags'))
     flash_form_errors(form)
     return render_template('admin-tags-create.html', form=form)
@@ -454,7 +454,7 @@ def admin_tags_delete(tag_id):
     tag = Tag.query.get(tag_id)
     db.session.delete(tag)
     db.session.commit()
-    flash("Le tag '%s' a bien été supprimé" % tag.name)
+    flash("Le tag '%s' a bien été supprimé" % tag.name, 'info')
     return redirect(url_for('admin_tags'))
 
 
@@ -495,7 +495,7 @@ def admin_users_create():
         )
         db.session.add(user)
         db.session.commit()
-        flash("L'utilisateur '%s' a bien été créé" % form.username.data)
+        flash("L'utilisateur '%s' a bien été créé" % form.username.data, 'info')
         return redirect(url_for('admin_users'))
     flash_form_errors(form)
     return render_template('admin-users-create.html', form=form)
@@ -505,7 +505,7 @@ def admin_users_create():
 @login_required
 def admin_users_delete(user_id):
     user = User.query.get(user_id)
-    flash("L'utilisateur '%s' a bien été supprimé" % user.username)
+    flash("L'utilisateur '%s' a bien été supprimé" % user.username, 'info')
     db.session.delete(user)
     db.session.commit()
     return redirect(url_for('admin_users'))
