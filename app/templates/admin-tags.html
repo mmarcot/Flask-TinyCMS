@@ -1,18 +1,18 @@
 {% extends 'admin.html' %}
 
-{% block title %}Tags{% endblock %}
+{% block title %}{{ _('Tags') }}{% endblock %}
 
 {% block content %}
 <div class="text-center mt-3">
-    <h1>Les tags</h1>
+    <h1>{{ _('The tags') }}</h1>
 </div>
-<a class="btn btn-success my-2" href="{{ url_for('admin_tags_create') }}">Créer</a>
+<a class="btn btn-success my-2" href="{{ url_for('admin_tags_create') }}">{{ _('Create') }}</a>
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Actions</th>
+            <th>{{ _('ID') }}</th>
+            <th>{{ _('Name') }}</th>
+            <th>{{ _('Actions') }}</th>
         </tr>
     </thead>
     <tbody>
@@ -22,10 +22,10 @@
             <td>{{ tag.name }}</td>
             <td>
                 <a class="btn btn-primary" href="{{ url_for('admin_tags_edit', tag_id=tag.id) }}">
-                    Modifer
+                    {{ _('Edit') }}
                 </a>
                 <form action="{{ url_for('admin_tags_delete', tag_id=tag.id) }}" method="POST" class="d-inline">
-                    <input type="submit" class="btn btn-danger" value="Supprimer">
+                    <input type="submit" class="btn btn-danger" value="{{ _('Delete') }}">
                 </form>
             </td>
         </tr>

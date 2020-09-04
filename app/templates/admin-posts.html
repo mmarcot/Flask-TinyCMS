@@ -1,22 +1,22 @@
 {% extends 'admin.html' %}
 
-{% block title %}Posts{% endblock %}
+{% block title %}{{ _('Posts') }}{% endblock %}
 
 {% block content %}
 <div class="text-center mt-3">
-    <h1>Les articles</h1>
+    <h1>{{ _('The posts') }}</h1>
 </div>
-<a class="btn btn-success my-2" href="{{ url_for('admin_posts_create') }}">Créer</a>
+<a class="btn btn-success my-2" href="{{ url_for('admin_posts_create') }}">{{ _('Create') }}</a>
 <table class="table table-striped">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Titre</th>
-            <th>Date création</th>
-            <th>Auteur</th>
-            <th>Publié</th>
-            <th>Tags</th>
-            <th>Actions</th>
+            <th>{{ _('ID') }}</th>
+            <th>{{ _('Title') }}</th>
+            <th>{{ _('Create date') }}</th>
+            <th>{{ _('Author') }}</th>
+            <th>{{ _('Published') }}</th>
+            <th>{{ _('Tags') }}</th>
+            <th>{{ _('Actions') }}</th>
         </tr>
     </thead>
     <tbody>
@@ -26,15 +26,15 @@
             <td>{{ post.title }}</td>
             <td>{{ post.creation_date.strftime('%a %d %B %Y à %-Hh%M') }}</td>
             <td>{{ post.user.username }}</td>
-            <td>{{ post.published and 'Oui' or 'Non' }}</td>
+            <td>{{ post.published and _('Yes') or _('No') }}</td>
             <td>{{ post.tags_str }}</td>
             <td>
                 <a class="btn btn-primary" href="{{ url_for('admin_posts_edit', post_id=post.id) }}">
-                    Modifer
+                    {{ _('Edit') }}
                 </a>
                 <form action="{{ url_for('admin_posts_delete', post_id=post.id) }}" method="POST" class="d-inline">
                     <input type="hidden" name="delete" value="{{ post.id }}">
-                    <input type="submit" class="btn btn-danger" value="Supprimer">
+                    <input type="submit" class="btn btn-danger" value="{{ _('Delete') }}">
                 </form>
             </td>
         </tr>

@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Admin{% endblock %}
+{% block title %} {{ _('Admin') }} {% endblock %}
 
 {% block import_header_end %}
     <!-- Bootstrap  -->
@@ -35,25 +35,25 @@
             <div class="btn-group-vertical w-100">
                 <h2 class="mt-5 mb-4 mx-auto">Admin</h2>
                 <button type="button" class="btn btn-primary">
-                    <a class="text-light" href="{{ url_for('admin_posts') }}">Articles</a>
+                    <a class="text-light" href="{{ url_for('admin_posts') }}">{{ _('Posts') }}</a>
                 </button>
                 <button type="button" class="btn btn-primary">
-                    <a class="text-light" href="{{ url_for('admin_pages') }}">Pages</a>
+                    <a class="text-light" href="{{ url_for('admin_pages') }}">{{ _('Pages') }}</a>
                 </button>
                 <button type="button" class="btn btn-primary">
-                    <a class="text-light" href="{{ url_for('admin_users') }}">Utilisateurs</a>
+                    <a class="text-light" href="{{ url_for('admin_users') }}">{{ _('Users') }}</a>
                 </button>
                 <button type="button" class="btn btn-primary">
-                    <a class="text-light" href="{{ url_for('admin_tags') }}">Tags</a>
+                    <a class="text-light" href="{{ url_for('admin_tags') }}">{{ _('Tags') }}</a>
                 </button>
                 <button type="button" class="btn btn-primary mt-5">
-                    <a class="text-light" href="{{ url_for('admin_configuration') }}">Configuration</a>
+                    <a class="text-light" href="{{ url_for('admin_configuration') }}">{{ _('Configuration') }}</a>
                 </button>
                 <button type="button" class="btn btn-primary">
-                    <a class="text-light" href="{{ url_for('index') }}">Retour au site</a>
+                    <a class="text-light" href="{{ url_for('index') }}">{{ _('Back to website') }}</a>
                 </button>
                 <button type="button" class="btn btn-primary">
-                    <a class="text-light" href="{{ url_for('logout') }}">Se déconnecter</a>
+                    <a class="text-light" href="{{ url_for('logout') }}">{{ _('Logout') }}</a>
                 </button>
             </div>
         </div>

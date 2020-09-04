@@ -6,8 +6,9 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextA
 from wtforms.validators import InputRequired, Email, Length, Optional
 from flask_login import LoginManager, login_user, login_required, current_user, UserMixin, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+from flask_babel import _, Babel
 
+from datetime import datetime
 import json
 
 
@@ -25,9 +26,20 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+
+LANGUAGES = [
+    ('en', 'English'),
+    ('fr', 'Français'),
+]
+babel = Babel(app)
+
+@babel.localeselector
+def get_locale():
+    return Configuration.get_current_language()
+
+
 login_manager = LoginManager()
 login_manager.init_app(app)
-
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -35,9 +47,10 @@ def load_user(user_id):
 
 
 @app.context_processor
-def inject_pages():
+def inject_templates():
     pages = Page.query.filter_by(published=True)
-    return {'site_pages': pages}
+    config_language = Configuration.get_current_language()
+    return {'site_pages': pages, 'config_language': config_language}
 
 
 def flash_form_errors(form):
@@ -53,58 +66,55 @@ def flash_form_errors(form):
 #######################################################################################################
 
 class PostCreateForm(FlaskForm):
-    title = StringField('Title', validators=[Length(1,199,"Le titre doit contenir entre 1 et 200 caractères")])
-    slug = StringField('Slug', validators=[Length(1,199,"Le slug doit contenir entre 1 et 200 caractères")])
-    tags = StringField('Tags', render_kw={"data-role":"tagsinput"})
-    published = BooleanField('Published', default=True)
-    abstract_image = StringField('Abstract image', validators=[Optional(),Length(1,199,"Le lien vers l'image doit contenir entre 1 et 200 caractères")])
-    abstract = TextAreaField('Abstract', validators=[Optional()])
-    content = TextAreaField('Content')
+    title = StringField(_('Title'), validators=[Length(1,199,_("The title should contain between 1 and 200 characters"))])
+    slug = StringField(_('Slug'), validators=[Length(1,199,_("The slug should contain between 1 and 200 characters"))])
+    tags = StringField(_('Tags'), render_kw={"data-role":"tagsinput"})
+    published = BooleanField(_('Published'), default=True)
+    abstract_image = StringField(_('Abstract image'), validators=[Optional(),Length(1,199,_("The link to the image should contain between 1 and 200 characters"))])
+    abstract = TextAreaField(_('Abstract'), validators=[Optional()])
+    content = TextAreaField(_('Content'))
     form_type = HiddenField()
-    submit = SubmitField('Create')
+    submit = SubmitField(_('Create'))
 
 class PostEditForm(PostCreateForm):
-    submit = SubmitField('Save')
+    submit = SubmitField(_('Save'))
 
 
 class PageCreateForm(FlaskForm):
-    title = StringField('Title', validators=[Length(1,199,"Le titre doit contenir entre 1 et 200 caractères")])
-    slug = StringField('Slug', validators=[Length(1,199,"Le slug doit contenir entre 1 et 200 caractères")])
-    nav_label = StringField('Navigation label', validators=[Length(1,49,"L'étiquette menu doit contenir entre 1 et 49 caractères")])
-    published = BooleanField('Published', default=True)
-    content = TextAreaField('Content')
+    title = StringField(_('Title'), validators=[Length(1,199,_("The title should contain between 1 and 200 characters"))])
+    slug = StringField(_('Slug'), validators=[Length(1,199,_("The slug should contain between 1 and 200 characters"))])
+    nav_label = StringField(_('Navigation label'), validators=[Length(1,49,_("The navigation label should contain between 1 and 50 characters"))])
+    published = BooleanField(_('Published'), default=True)
+    content = TextAreaField(_('Content'))
     form_type = HiddenField()
-    submit = SubmitField('Create')
+    submit = SubmitField(_('Create'))
 
 class PageEditForm(PageCreateForm):
-    submit = SubmitField('Save')
+    submit = SubmitField(_('Save'))
 
 
 class UserCreateForm(FlaskForm):
-    username = StringField('Username', validators=[InputRequired("Merci de saisir un nom d'utilisateur."), Length(5,45,"Le nom d'utilisateur doit contenir entre 5 et 45 caractères")])
-    email = StringField('Email', validators=[InputRequired("Merci de saisir une adresse e-mail."), Email("L'adresse e-mail saisie n'est pas valide.")])
-    password = PasswordField('Password', validators=[Length(5,45,"Le mot de passe doit contenir entre 5 et 45 caractères")])
-    submit = SubmitField('Create')
+    username = StringField(_('Username'), validators=[InputRequired(_("Username cannot be empty")), Length(5,49,_("The username should contain between 5 and 50 characters"))])
+    email = StringField(_('Email'), validators=[InputRequired(_("Merci de saisir une adresse e-mail.")), Email(_("The given e-mail is not valid"))])
+    password = PasswordField(_('Password'), validators=[Length(5,49,_("The password should contain between 5 and 50 characters"))])
+    submit = SubmitField(_('Create'))
 
 class UserEditForm(UserCreateForm):
-    password = PasswordField('Password', validators=[Optional(), Length(5,45,"Le mot de passe doit contenir entre 5 et 45 caractères")])
-    submit = SubmitField('Save')
+    password = PasswordField(_('Password'), validators=[Optional(), Length(5,49,_("The password should contain between 5 and 50 characters"))])
+    submit = SubmitField(_('Save'))
 
 
 class TagCreateForm(FlaskForm):
-    name = StringField('Name', validators=[Length(2,45, "Le tag doit contenir entre 2 et 45 caractères")])
-    submit = SubmitField('Create')
+    name = StringField(_('Name'), validators=[Length(2,49, "The tag name should contain between 2 and 50 characters")])
+    submit = SubmitField(_('Create'))
 
 class TagEditForm(TagCreateForm):
-    submit = SubmitField('Save')
+    submit = SubmitField(_('Save'))
 
 
 class AdminConfigurationForm(FlaskForm):
-    language = SelectField('Langage', choices=[
-        ('en', 'English'), 
-        ('fr', 'Français'),
-    ])
-    submit = SubmitField('Save')
+    language = SelectField(_('Language'), choices=LANGUAGES)
+    submit = SubmitField(_('Save'))
 
 
 
@@ -136,7 +146,7 @@ class Post(db.Model):
 
     @validates('slug')
     def validates_slug(self, key, value):
-        assert len(value) >= 1, "The slug should be at least 1 character"
+        assert len(value) >= 1, _("The slug should be at least 1 character")
         return value
 
     @property
@@ -172,12 +182,12 @@ class Page(db.Model):
 
     @validates('slug')
     def validates_slug(self, key, value):
-        assert len(value) >= 1, "The slug should be at least 1 character"
+        assert len(value) >= 1, _("The slug should be at least 1 character")
         return value
 
     @validates('nav_label')
     def validates_nav_label(self, key, value):
-        assert len(value) >= 1, "The navigation label should be at least 1 character"
+        assert len(value) >= 1, _("The navigation label should be at least 1 character")
         return value
 
 
@@ -191,12 +201,12 @@ class User(UserMixin, db.Model):
 
     @validates('username')
     def validates_username(self, key, value):
-        assert len(value) >= 1, "Username should be at least 1 character"
+        assert len(value) >= 1, _("Username should be at least 1 character")
         return value
 
     @validates('password')
     def validates_password(self, key, value):
-        assert len(value) >= 1, "Password should be at least 1 character"
+        assert len(value) >= 1, _("Password should be at least 1 character")
         return value
 
         
@@ -207,7 +217,7 @@ class Tag(db.Model):
 
     @validates('name')
     def validates_name(self, key, value):
-        assert len(value) >= 1, "The tag name should be at least 1 character"
+        assert len(value) >= 1, _("The tag name should be at least 1 character")
         return value
 
 
@@ -216,6 +226,33 @@ class Configuration(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=True)
     user = db.relationship('User', backref=db.backref('config', lazy=True))
     language = db.Column(db.String(50), default='en')
+
+    @classmethod
+    @login_required
+    def get_current_config(cls):
+        '''
+        /!\ Login required
+        @return the current user config, if there is no configuration for the user, creates a new one
+        '''
+        config = cls.query.filter_by(user_id=current_user.id).first()
+        if not config:
+            config = Configuration(user_id=current_user.id)
+            db.session.add(config)
+            db.session.commit()
+        return config
+
+    @classmethod
+    def get_current_language(cls):
+        '''
+        Get the prefered language either if the user is logged in or not.
+        @return 'fr' or 'en' ...
+        '''
+        if current_user.is_authenticated:
+            config = cls.get_current_config()
+            return config.language
+        else:
+            return request.accept_languages.best_match([tu[0] for tu in LANGUAGES])
+
     
 
 #######################################################################################################
@@ -261,7 +298,7 @@ def login():
     if user and check_password_hash(user.password, request.form['password']):
         login_user(user, remember=True)
         return redirect(url_for('admin_posts'))
-    flash("Nom d'utilisateur ou mot de passe incorrect", 'danger')
+    flash(_("Username and password doesn't match"), 'danger')
     return render_template('site-login.html')
 
 
@@ -276,15 +313,11 @@ def logout():
 @login_required
 def admin_configuration():
     form = AdminConfigurationForm()
-    config = Configuration.query.filter_by(user_id=current_user.id).first()
-    if not config:
-        config = Configuration(user_id=current_user.id)
-        db.session.add(config)
-        db.session.commit()
+    config = Configuration.get_current_config()
     if form.validate_on_submit():
         config.language = form.language.data
         db.session.commit()
-        flash('Configuration enregistrée', 'info')
+        flash(_('Configuration saved'), 'info')
         return redirect(url_for('admin_configuration'))
     form.language.data = config.language
     return render_template('admin-configuration.html', form=form)
@@ -317,7 +350,7 @@ def admin_posts_create():
         new_post.add_tags(form.tags.data)
         db.session.add(new_post)
         db.session.commit()
-        flash("L'article '%s' a bien été créé" % new_post.title, 'info')
+        flash(_("The post '%s' has been created successfully") % new_post.title, 'info')
         return redirect(url_for('admin_posts'))
     flash_form_errors(form)
     return render_template('admin-posts-create.html', form=form)
@@ -327,7 +360,7 @@ def admin_posts_create():
 @login_required
 def admin_posts_delete(post_id):
     post = Post.query.get(post_id)
-    flash("Article '%s' supprimé" % post.title, 'info')
+    flash(_("Post '%s' deleted") % post.title, 'info')
     db.session.delete(post)
     db.session.commit()
     return redirect(url_for('admin_posts'))
@@ -385,7 +418,7 @@ def admin_pages_create():
         )
         db.session.add(new_page)
         db.session.commit()
-        flash("La page '%s' a bien été crée" % new_page.nav_label, 'info')
+        flash(_("The page '%s' has been created successfully") % new_page.nav_label, 'info')
         return redirect(url_for('admin_pages'))
     flash_form_errors(form)
     return render_template('admin-pages-create.html', form=form)
@@ -397,7 +430,7 @@ def admin_pages_delete(page_id):
     page = Page.query.get(page_id)
     db.session.delete(page)
     db.session.commit()
-    flash("La page '%s' a bien été supprimé" % page.nav_label, 'info')
+    flash(_("The page '%s' has been deleted") % page.nav_label, 'info')
     return redirect(url_for('admin_pages'))
 
 
@@ -442,7 +475,7 @@ def admin_tags_create():
         new_tag = Tag(name=form.name.data)
         db.session.add(new_tag)
         db.session.commit()
-        flash("Le tag '%s' a bien été créé" % new_tag.name, 'info')
+        flash(_("The tag '%s' has been created") % new_tag.name, 'info')
         return redirect(url_for('admin_tags'))
     flash_form_errors(form)
     return render_template('admin-tags-create.html', form=form)
@@ -454,7 +487,7 @@ def admin_tags_delete(tag_id):
     tag = Tag.query.get(tag_id)
     db.session.delete(tag)
     db.session.commit()
-    flash("Le tag '%s' a bien été supprimé" % tag.name, 'info')
+    flash(_("The tag '%s' has been deleted") % tag.name, 'info')
     return redirect(url_for('admin_tags'))
 
 
@@ -495,7 +528,7 @@ def admin_users_create():
         )
         db.session.add(user)
         db.session.commit()
-        flash("L'utilisateur '%s' a bien été créé" % form.username.data, 'info')
+        flash(_("The user '%s' has been created") % form.username.data, 'info')
         return redirect(url_for('admin_users'))
     flash_form_errors(form)
     return render_template('admin-users-create.html', form=form)
@@ -505,7 +538,7 @@ def admin_users_create():
 @login_required
 def admin_users_delete(user_id):
     user = User.query.get(user_id)
-    flash("L'utilisateur '%s' a bien été supprimé" % user.username, 'info')
+    flash(_("The user '%s' has been deleted") % user.username, 'info')
     db.session.delete(user)
     db.session.commit()
     return redirect(url_for('admin_users'))

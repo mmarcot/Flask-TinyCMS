@@ -1,11 +1,11 @@
 {% extends 'admin.html' %}
 
-{% block title %}Créer un tag{% endblock %}
+{% block title %}{{ _('Create tag') }}{% endblock %}
 
 {% block content %}
 <div class="col-sm-6 col-lg-4 mx-auto m-3">
     <div class="text-center mb-4">
-        <h1>Créer un tag</h1>
+        <h1>{{ _('Create tag') }}</h1>
     </div>
     <form action="{{ url_for('admin_tags_create') }}" method="POST" class="form">
         {{ form.csrf_token }}

@@ -1,11 +1,11 @@
 {% extends 'admin.html' %}
 
-{% block title %}Modifier une page{% endblock %}
+{% block title %}{{ _('Edit page') }}{% endblock %}
 
 {% block content %}
 <div class="m-3 ">
     <div class="text-center mb-3">
-        <h1>Modifier une page</h1>
+        <h1>{{ _('Edit page') }}</h1>
     </div>
     <form action="{{ url_for('admin_pages_edit', page_id=page.id) }}" method="POST" class="form">
         {{ form.csrf_token }}

@@ -1,11 +1,11 @@
 {% extends 'admin.html' %}
 
-{% block title %}Créer une page{% endblock %}
+{% block title %}{{ _('Create page') }}{% endblock %}
 
 {% block content %}
 <div class="col-md-10 mx-auto m-3">
     <div class="text-center mb-3">
-        <h1>Créer une page</h1>
+        <h1>{{ _('Create page') }}</h1>
     </div>
     <form action="{{ url_for('admin_pages_create') }}" method="POST" class="form">
         {{ form.csrf_token }}

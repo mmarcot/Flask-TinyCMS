@@ -1,11 +1,11 @@
 {% extends 'admin.html' %}
 
-{% block title %}Modifer un article{% endblock %}
+{% block title %}{{ _('Edit post') }}{% endblock %}
 
 {% block content %}
 <div class="m-3">
     <div class="text-center mb-3">
-        <h1>Modifer un article</h1>
+        <h1>{{ _('Edit post') }}</h1>
     </div>
     <form action="{{ url_for('admin_posts_edit', post_id=post.id) }}" method="POST" class="form">
         {{ form.csrf_token }}
@@ -54,7 +54,7 @@
 </div>
 <script>
     CKEDITOR.replace('editor', {
-        language: 'fr',
+        language: "{{ config_language }}",
         extraPlugins: 'justify',
     });
 </script>
