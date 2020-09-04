@@ -1,0 +1,310 @@
+# French translations for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-09-04 12:14+0200\n"
+"PO-Revision-Date: 2020-09-04 12:20+0200\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.8.0\n"
+"Last-Translator: \n"
+"X-Generator: Poedit 2.3\n"
+
+#: app/templates/admin-pages.html:14 app/templates/admin-posts.html:14
+#: app/views.py:69 app/views.py:84
+msgid "Title"
+msgstr "Titre"
+
+#: app/views.py:69 app/views.py:84
+msgid "The title should contain between 1 and 200 characters"
+msgstr "Le titre doit contenir entre 1 et 200 caractères"
+
+#: app/templates/admin-pages.html:16 app/views.py:70 app/views.py:85
+msgid "Slug"
+msgstr "Slug"
+
+#: app/views.py:70 app/views.py:85
+msgid "The slug should contain between 1 and 200 characters"
+msgstr "Le slug doit contenir entre 1 et 200 caractères"
+
+#: app/templates/admin-posts.html:18 app/templates/admin-tags.html:3
+#: app/templates/admin.html:47 app/views.py:71
+msgid "Tags"
+msgstr "Tags"
+
+#: app/templates/admin-pages.html:17 app/templates/admin-posts.html:17
+#: app/views.py:72 app/views.py:87
+msgid "Published"
+msgstr "Publié"
+
+#: app/views.py:73
+msgid "Abstract image"
+msgstr "Image du résumé"
+
+#: app/views.py:73
+msgid "The link to the image should contain between 1 and 200 characters"
+msgstr "Le lien vers l'image doit contenir entre 1 et 200 caractères"
+
+#: app/views.py:74
+msgid "Abstract"
+msgstr "Résumé"
+
+#: app/views.py:75 app/views.py:88
+msgid "Content"
+msgstr "Contenu"
+
+#: app/templates/admin-pages.html:9 app/templates/admin-posts.html:9
+#: app/templates/admin-tags.html:9 app/templates/admin-users.html:9
+#: app/views.py:77 app/views.py:90 app/views.py:100 app/views.py:109
+msgid "Create"
+msgstr "Créer"
+
+#: app/views.py:80 app/views.py:93 app/views.py:104 app/views.py:112
+#: app/views.py:117
+msgid "Save"
+msgstr "Enregistrer"
+
+#: app/templates/admin-pages.html:15 app/views.py:86
+msgid "Navigation label"
+msgstr "Etiquette menu"
+
+#: app/views.py:86
+msgid "The navigation label should contain between 1 and 50 characters"
+msgstr "L'étiquette menu doit contenir entre 1 et 50 caractères"
+
+#: app/templates/admin-users.html:14 app/views.py:97
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: app/views.py:97
+msgid "Username cannot be empty"
+msgstr "Merci de saisir un nom d'utilisateur"
+
+#: app/views.py:97
+msgid "The username should contain between 5 and 50 characters"
+msgstr "Le nom d'utilisateur doit contenir entre 5 et 50 caractères"
+
+#: app/templates/admin-users.html:15 app/views.py:98
+msgid "Email"
+msgstr "Email"
+
+#: app/views.py:98
+msgid "Email cannot be empty"
+msgstr "Merci de saisir une adresse e-mail"
+
+#: app/views.py:98
+msgid "The given e-mail is not valid"
+msgstr "L'adresse e-mail saisie n'est pas valide"
+
+#: app/views.py:99 app/views.py:103
+msgid "Password"
+msgstr "Mot de passe"
+
+#: app/views.py:99 app/views.py:103
+msgid "The password should contain between 5 and 50 characters"
+msgstr "Le mot de passe doit contenir entre 5 et 50 caractères"
+
+#: app/templates/admin-tags.html:14 app/views.py:108
+msgid "Name"
+msgstr "Nom"
+
+#: app/views.py:108
+msgid "The tag name should contain between 2 and 50 characters"
+msgstr "Le tag doit contenir entre 2 et 50 caractères"
+
+#: app/views.py:116
+msgid "Language"
+msgstr "Langage"
+
+#: app/views.py:149 app/views.py:185
+msgid "The slug should be at least 1 character"
+msgstr "Le slug doit contenir au moins 1 caractère"
+
+#: app/views.py:190
+msgid "The navigation label should be at least 1 character"
+msgstr "L'étiquette menu doit contenir au moins 1 caractère"
+
+#: app/views.py:204
+msgid "Username should be at least 1 character"
+msgstr "Le nom d'utilisateur doit contenir au moins 1 caractère"
+
+#: app/views.py:209
+msgid "Password should be at least 1 character"
+msgstr "Le mot de passe doit contenir au moins 1 caractère"
+
+#: app/views.py:220
+msgid "The tag name should be at least 1 character"
+msgstr "Le tag doit contenir au moins 1 caractère"
+
+#: app/views.py:301
+msgid "Username and password doesn't match"
+msgstr "Nom d'utilisateur ou mot de passe incorrect"
+
+#: app/views.py:320
+msgid "Configuration saved"
+msgstr "Configuration enregistrée"
+
+#: app/views.py:353
+#, python-format
+msgid "The post '%s' has been created successfully"
+msgstr "L'article '%s' a bien été créé"
+
+#: app/views.py:363
+#, python-format
+msgid "Post '%s' deleted"
+msgstr "L'article '%s' a été supprimé"
+
+#: app/views.py:421
+#, python-format
+msgid "The page '%s' has been created successfully"
+msgstr "La page '%s' a bien été créé"
+
+#: app/views.py:433
+#, python-format
+msgid "The page '%s' has been deleted"
+msgstr "La page '%s' a été supprimé"
+
+#: app/views.py:478
+#, python-format
+msgid "The tag '%s' has been created"
+msgstr "Le tag '%s' a bien été créé"
+
+#: app/views.py:490
+#, python-format
+msgid "The tag '%s' has been deleted"
+msgstr "Le tag '%s' a été supprimé"
+
+#: app/views.py:531
+#, python-format
+msgid "The user '%s' has been created"
+msgstr "L'utilisateur '%s' a bien été créé"
+
+#: app/views.py:541
+#, python-format
+msgid "The user '%s' has been deleted"
+msgstr "L'utilisateur '%s' a été supprimé"
+
+#: app/templates/admin-configuration.html:3 app/templates/admin.html:50
+msgid "Configuration"
+msgstr "Configuration"
+
+#: app/templates/admin-pages-create.html:3
+#: app/templates/admin-pages-create.html:8
+msgid "Create page"
+msgstr "Créer une page"
+
+#: app/templates/admin-pages-edit.html:3 app/templates/admin-pages-edit.html:8
+msgid "Edit page"
+msgstr "Modifier une page"
+
+#: app/templates/admin-pages.html:3 app/templates/admin.html:41
+msgid "Pages"
+msgstr "Pages"
+
+#: app/templates/admin-pages.html:7
+msgid "The pages"
+msgstr "Les pages"
+
+#: app/templates/admin-pages.html:13 app/templates/admin-posts.html:13
+#: app/templates/admin-tags.html:13 app/templates/admin-users.html:13
+msgid "ID"
+msgstr "ID"
+
+#: app/templates/admin-pages.html:18 app/templates/admin-posts.html:19
+#: app/templates/admin-tags.html:15 app/templates/admin-users.html:16
+msgid "Actions"
+msgstr "Actions"
+
+#: app/templates/admin-pages.html:28 app/templates/admin-posts.html:29
+msgid "Yes"
+msgstr "Oui"
+
+#: app/templates/admin-pages.html:28 app/templates/admin-posts.html:29
+msgid "No"
+msgstr "Non"
+
+#: app/templates/admin-pages.html:31 app/templates/admin-posts.html:33
+#: app/templates/admin-tags.html:25 app/templates/admin-users.html:27
+msgid "Edit"
+msgstr "Modifier"
+
+#: app/templates/admin-pages.html:34 app/templates/admin-posts.html:37
+#: app/templates/admin-tags.html:28 app/templates/admin-users.html:30
+msgid "Delete"
+msgstr "Supprimer"
+
+#: app/templates/admin-posts-create.html:3
+#: app/templates/admin-posts-create.html:8
+msgid "Create post"
+msgstr "Créer un article"
+
+#: app/templates/admin-posts-edit.html:3 app/templates/admin-posts-edit.html:8
+msgid "Edit post"
+msgstr "Modifier un article"
+
+#: app/templates/admin-posts.html:3 app/templates/admin.html:38
+msgid "Posts"
+msgstr "Articles"
+
+#: app/templates/admin-posts.html:7
+msgid "The posts"
+msgstr "Les articles"
+
+#: app/templates/admin-posts.html:15
+msgid "Create date"
+msgstr "Date création"
+
+#: app/templates/admin-posts.html:16
+msgid "Author"
+msgstr "Auteur"
+
+#: app/templates/admin-tags-create.html:3
+#: app/templates/admin-tags-create.html:8
+msgid "Create tag"
+msgstr "Créer un tag"
+
+#: app/templates/admin-tags-edit.html:3 app/templates/admin-tags-edit.html:8
+msgid "Edit tag"
+msgstr "Modifier un tag"
+
+#: app/templates/admin-tags.html:7
+msgid "The tags"
+msgstr "Les tags"
+
+#: app/templates/admin-users-create.html:3
+#: app/templates/admin-users-create.html:8
+msgid "Create user"
+msgstr "Créer un utilisateur"
+
+#: app/templates/admin-users-edit.html:3 app/templates/admin-users-edit.html:8
+msgid "Edit user"
+msgstr "Modifier un utilisateur"
+
+#: app/templates/admin-users.html:3 app/templates/admin-users.html:7
+msgid "The users"
+msgstr "Les utilisateurs"
+
+#: app/templates/admin.html:3
+msgid "Admin"
+msgstr "Admin"
+
+#: app/templates/admin.html:44
+msgid "Users"
+msgstr "Utilisateurs"
+
+#: app/templates/admin.html:53
+msgid "Back to website"
+msgstr "Retour au site"
+
+#: app/templates/admin.html:56
+msgid "Logout"
+msgstr "Déconnection"
