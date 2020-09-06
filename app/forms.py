@@ -7,7 +7,6 @@ from .utils import LANGUAGES
 
 
 
-
 class PostCreateForm(FlaskForm):
     title = StringField(lazy_gettext('Title'), validators=[Length(1,199,lazy_gettext("The title should contain between 1 and 200 characters"))])
     slug = StringField(lazy_gettext('Slug'), validators=[Length(1,199,lazy_gettext("The slug should contain between 1 and 200 characters"))])
@@ -23,6 +22,15 @@ class PostEditForm(PostCreateForm):
     submit = SubmitField(lazy_gettext('Save'))
 
 
+
+class CommentForm(FlaskForm):
+    author_name = StringField(lazy_gettext('Name'), validators=[Length(1,49, lazy_gettext("The name should contain between 1 and 50 characters"))])
+    author_email = StringField(lazy_gettext('Email'), validators=[InputRequired(lazy_gettext("Email cannot be empty")), Email(lazy_gettext("The given e-mail is not valid"))])
+    content = TextAreaField(lazy_gettext('Content'))
+    submit = SubmitField(lazy_gettext('Create'))
+
+
+
 class PageCreateForm(FlaskForm):
     title = StringField(lazy_gettext('Title'), validators=[Length(1,199,lazy_gettext("The title should contain between 1 and 200 characters"))])
     slug = StringField(lazy_gettext('Slug'), validators=[Length(1,199,lazy_gettext("The slug should contain between 1 and 200 characters"))])
@@ -36,6 +44,7 @@ class PageEditForm(PageCreateForm):
     submit = SubmitField(lazy_gettext('Save'))
 
 
+
 class UserCreateForm(FlaskForm):
     username = StringField(lazy_gettext('Username'), validators=[InputRequired(lazy_gettext("Username cannot be empty")), Length(5,49,lazy_gettext("The username should contain between 5 and 50 characters"))])
     email = StringField(lazy_gettext('Email'), validators=[InputRequired(lazy_gettext("Email cannot be empty")), Email(lazy_gettext("The given e-mail is not valid"))])
@@ -47,12 +56,14 @@ class UserEditForm(UserCreateForm):
     submit = SubmitField(lazy_gettext('Save'))
 
 
+
 class TagCreateForm(FlaskForm):
     name = StringField(lazy_gettext('Name'), validators=[Length(2,49, lazy_gettext("The tag name should contain between 2 and 50 characters"))])
     submit = SubmitField(lazy_gettext('Create'))
 
 class TagEditForm(TagCreateForm):
     submit = SubmitField(lazy_gettext('Save'))
+
 
 
 class AdminConfigurationForm(FlaskForm):

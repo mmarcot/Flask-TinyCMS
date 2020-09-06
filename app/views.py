@@ -21,13 +21,24 @@ def blog():
     return render_template('site-blog.html', posts=posts)
 
 
-@app.route('/post/<slug>')
+@app.route('/post/<slug>', methods=['GET', 'POST'])
 def post_detail(slug):
     post = Post.query.filter_by(slug=slug).first()
     if not post:
         abort(404)
     comments = Comment.query.filter_by(post_id=post.id, approved=True)
-    return render_template('site-post-detail.html', post=post, comments=comments)
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = Comment(
+            author_name = form.author_name.data,
+            author_email = form.author_email.data,
+            content = form.content.data,
+            post_id = post.id,
+        )
+        db.session.add(comment)
+        db.session.commit()
+        return redirect(url_for('post_detail', slug=post.slug))
+    return render_template('site-post-detail.html', post=post, comments=comments, form=form)
 
 
 @app.route('/page/<slug>')
