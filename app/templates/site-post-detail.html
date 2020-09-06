@@ -6,4 +6,13 @@
     {% autoescape off %}
         {{ post.content }}
     {% endautoescape %}
+
+    {% for comment in comments %}
+        <hr>
+        <div>
+            <h4>{{ comment.author }}</h4>
+            {{ comment.content }}
+        </div>
+    {% endfor %}
+
 {% endblock %}

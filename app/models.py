@@ -93,7 +93,19 @@ class User(UserMixin, db.Model):
         assert len(value) >= 1, _("Password should be at least 1 character")
         return value
 
-        
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    create_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    approved = db.Column(db.Boolean, nullable=False, default=False)
+    author_name = db.Column(db.String(50), nullable=False)
+    author_email = db.Column(db.String(50), nullable=False)
+    content = db.Column(db.Text)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+    post = db.relationship('Post', backref=db.backref('comments', lazy=True))
+
+
 
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -103,6 +115,7 @@ class Tag(db.Model):
     def validates_name(self, key, value):
         assert len(value) >= 1, _("The tag name should be at least 1 character")
         return value
+
 
 
 class Configuration(db.Model):
@@ -137,9 +150,3 @@ class Configuration(db.Model):
             return request.accept_languages.best_match([tu[0] for tu in LANGUAGES])
 
 
-# class Comment(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     author_name = db.Column(db.String(50), nullable=False)
-#     author_email = db.Column(db.String(50), nullable=False)
-#     post_id = db.Column(db.Integer, db.ForeignKey('post.id', nullable=False))
-#     post = db.relationship('Post', backref=db.backref('comments', lazy=True))

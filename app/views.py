@@ -3,8 +3,8 @@ from flask_login import login_user, login_required, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_babel import _
 
-from .forms import PostCreateForm, PostEditForm, PageEditForm, PageCreateForm, UserCreateForm, UserEditForm, TagCreateForm, TagEditForm, AdminConfigurationForm
-from .models import User, Configuration, Tag, Post, Page
+from .forms import *
+from .models import User, Configuration, Tag, Post, Page, Comment
 
 from app import app, db
 from .utils import flash_form_errors
@@ -26,7 +26,8 @@ def post_detail(slug):
     post = Post.query.filter_by(slug=slug).first()
     if not post:
         abort(404)
-    return render_template('site-post-detail.html', post=post)
+    comments = Comment.query.filter_by(post_id=post.id, approved=True)
+    return render_template('site-post-detail.html', post=post, comments=comments)
 
 
 @app.route('/page/<slug>')

@@ -1,4 +1,5 @@
-from views import db, User, Post, Tag, Page, Configuration
+from app import db
+from app.models import User, Post, Tag, Page, Configuration, Comment
 from werkzeug.security import generate_password_hash
 
 db.drop_all()
@@ -37,6 +38,16 @@ post2.tags.append(python_tag)
 post2.tags.append(web_tag)
 db.session.add(post1)
 db.session.add(post2)
+db.session.commit()
+
+com = Comment(
+    approved=True,
+    author_name="Perlinpinpin",
+    author_email="perl@gmail.com",
+    content="Oui c'est vrai que c'est pas mal!",
+    post_id=post1.id,
+)
+db.session.add(com)
 db.session.commit()
 
 page = Page(
