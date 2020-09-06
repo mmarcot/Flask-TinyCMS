@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, HiddenField, SelectField
 from wtforms.validators import InputRequired, Email, Length, Optional
-from flask_babel import _, Babel, lazy_gettext
+from flask_babel import lazy_gettext
 
-from .constants import LANGUAGES
+from .utils import LANGUAGES
 
 
 
