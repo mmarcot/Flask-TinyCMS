@@ -85,10 +85,14 @@ def admin_configuration():
     config = Configuration.get_current_config()
     if form.validate_on_submit():
         config.language = form.language.data
+        config.blog_enabled = form.blog_enabled.data
+        config.comments_enabled = form.comments_enabled.data
         db.session.commit()
         flash(_('Configuration saved'), 'info')
         return redirect(url_for('admin_configuration'))
     form.language.data = config.language
+    form.blog_enabled.data = config.blog_enabled
+    form.comments_enabled.data = config.comments_enabled
     return render_template('admin-configuration.html', form=form)
 
 

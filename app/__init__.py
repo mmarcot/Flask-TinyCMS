@@ -25,6 +25,6 @@ def load_user(user_id):
 @app.context_processor
 def inject_templates():
     pages = models.Page.query.filter_by(published=True)
-    config_language = models.Configuration.get_current_language()
-    return {'site_pages': pages, 'config_language': config_language}
+    config = models.Configuration.get_current_config()
+    return {'site_pages': pages, 'config': config}
 

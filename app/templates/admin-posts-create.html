@@ -54,7 +54,7 @@
 </div>
 <script>
     CKEDITOR.replace('editor', {
-        language: "{{ config_language }}",
+        language: "{{ config.get_current_language() }}",
         extraPlugins: 'justify',
     });
 </script>

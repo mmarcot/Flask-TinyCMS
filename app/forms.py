@@ -68,4 +68,6 @@ class TagEditForm(TagCreateForm):
 
 class AdminConfigurationForm(FlaskForm):
     language = SelectField(lazy_gettext('Language'), choices=Config.LANGUAGES)
+    blog_enabled = BooleanField(lazy_gettext('Blog enabled'), default=True)
+    comments_enabled = BooleanField(lazy_gettext('Comments enabled'), default=True)
     submit = SubmitField(lazy_gettext('Save'))

@@ -15,6 +15,18 @@
               {{ form.language(class="form-control") }}
             </div>
         </div>
+        <div class="form-check my-2">
+            <label for="blog_enabled" class="form-check-label">
+                {{ form.blog_enabled(class="form-check-input") }}
+                {{ form.blog_enabled.label }}
+            </label>
+        </div>
+        <div class="form-check my-2">
+            <label for="comments_enabled" class="form-check-label">
+                {{ form.comments_enabled(class="form-check-input") }}
+                {{ form.comments_enabled.label }}
+            </label>
+        </div>
         {{ form.submit(class="btn btn-success mt-3") }}
     </form>
 </div>

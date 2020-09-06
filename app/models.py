@@ -123,6 +123,8 @@ class Configuration(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, unique=True)
     user = db.relationship('User', backref=db.backref('config', lazy=True))
     language = db.Column(db.String(50), default='en')
+    blog_enabled = db.Column(db.Boolean, default=True)
+    comments_enabled = db.Column(db.Boolean, default=True)
 
     @classmethod
     @login_required

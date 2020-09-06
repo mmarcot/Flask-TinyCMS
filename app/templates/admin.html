@@ -34,20 +34,24 @@
         <div class="col-md-2 text-light bg-primary p-0 pb-5" style="min-height: 100vh;">
             <div class="btn-group-vertical w-100">
                 <h2 class="mt-5 mb-4 mx-auto">SimpleCMS</h2>
-                <button type="button" class="btn btn-primary">
-                    <a class="text-light" href="{{ url_for('admin_posts') }}">{{ _('Posts') }}</a>
-                </button>
-                <button type="button" class="btn btn-primary">
-                    <a class="text-light" href="{{ url_for('admin_comments') }}">{{ _('Comments') }}</a>
-                </button>
+                {% if config.blog_enabled %}
+                    <button type="button" class="btn btn-primary">
+                        <a class="text-light" href="{{ url_for('admin_posts') }}">{{ _('Posts') }}</a>
+                    </button>
+                    {% if config.comments_enabled %}
+                        <button type="button" class="btn btn-primary">
+                            <a class="text-light" href="{{ url_for('admin_comments') }}">{{ _('Comments') }}</a>
+                        </button>
+                    {% endif %}
+                    <button type="button" class="btn btn-primary">
+                        <a class="text-light" href="{{ url_for('admin_tags') }}">{{ _('Tags') }}</a>
+                    </button>
+                {% endif %}
                 <button type="button" class="btn btn-primary">
                     <a class="text-light" href="{{ url_for('admin_pages') }}">{{ _('Pages') }}</a>
                 </button>
                 <button type="button" class="btn btn-primary">
                     <a class="text-light" href="{{ url_for('admin_users') }}">{{ _('Users') }}</a>
-                </button>
-                <button type="button" class="btn btn-primary">
-                    <a class="text-light" href="{{ url_for('admin_tags') }}">{{ _('Tags') }}</a>
                 </button>
                 <button type="button" class="btn btn-primary mt-5">
                     <a class="text-light" href="{{ url_for('admin_configuration') }}">{{ _('Configuration') }}</a>
