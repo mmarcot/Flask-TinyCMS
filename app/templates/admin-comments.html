@@ -12,6 +12,7 @@
                 <th>{{ _('ID') }}</th>
                 <th>{{ _('Author') }}</th>
                 <th>{{ _('Email') }}</th>
+                <th>{{ _('Post') }}</th>
                 <th>{{ _('Content') }}</th>
                 <th>{{ _('Approved') }}</th>
                 <th>{{ _('Actions') }}</th>
@@ -23,6 +24,7 @@
                 <td>{{ comment.id }}</td>
                 <td>{{ comment.author_name }}</td>
                 <td>{{ comment.author_email }}</td>
+                <td>{{ comment.post.title }}</td>
                 <td>{{ comment.content }}</td>
                 <td>{{ comment.approved and _('Yes') or _('No') }}</td>
                 <td>

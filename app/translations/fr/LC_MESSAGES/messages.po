@@ -7,8 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-09-04 12:14+0200\n"
-"PO-Revision-Date: 2020-09-04 12:20+0200\n"
+"POT-Creation-Date: 2020-09-06 17:05+0200\n"
+"PO-Revision-Date: 2020-09-06 17:05+0200\n"
+"Last-Translator: \n"
 "Language: fr\n"
 "Language-Team: fr <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -16,184 +17,252 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
-"Last-Translator: \n"
 "X-Generator: Poedit 2.3\n"
 
-#: app/templates/admin-pages.html:14 app/templates/admin-posts.html:14
-#: app/views.py:69 app/views.py:84
+#: app/forms.py:11 app/forms.py:35 app/templates/admin-pages.html:14
+#: app/templates/admin-posts.html:14
 msgid "Title"
 msgstr "Titre"
 
-#: app/views.py:69 app/views.py:84
+#: app/forms.py:11 app/forms.py:35
 msgid "The title should contain between 1 and 200 characters"
 msgstr "Le titre doit contenir entre 1 et 200 caractères"
 
-#: app/templates/admin-pages.html:16 app/views.py:70 app/views.py:85
+#: app/forms.py:12 app/forms.py:36 app/templates/admin-pages.html:16
 msgid "Slug"
 msgstr "Slug"
 
-#: app/views.py:70 app/views.py:85
+#: app/forms.py:12 app/forms.py:36
 msgid "The slug should contain between 1 and 200 characters"
 msgstr "Le slug doit contenir entre 1 et 200 caractères"
 
-#: app/templates/admin-posts.html:18 app/templates/admin-tags.html:3
-#: app/templates/admin.html:47 app/views.py:71
+#: app/forms.py:13 app/templates/admin-posts.html:18
+#: app/templates/admin-tags.html:3 app/templates/admin.html:50
 msgid "Tags"
 msgstr "Tags"
 
-#: app/templates/admin-pages.html:17 app/templates/admin-posts.html:17
-#: app/views.py:72 app/views.py:87
+#: app/forms.py:14 app/forms.py:38 app/templates/admin-pages.html:17
+#: app/templates/admin-posts.html:17
 msgid "Published"
 msgstr "Publié"
 
-#: app/views.py:73
+#: app/forms.py:15
 msgid "Abstract image"
 msgstr "Image du résumé"
 
-#: app/views.py:73
+#: app/forms.py:15
 msgid "The link to the image should contain between 1 and 200 characters"
 msgstr "Le lien vers l'image doit contenir entre 1 et 200 caractères"
 
-#: app/views.py:74
+#: app/forms.py:16
 msgid "Abstract"
 msgstr "Résumé"
 
-#: app/views.py:75 app/views.py:88
+#: app/forms.py:17 app/forms.py:29 app/forms.py:39
+#: app/templates/admin-comments.html:16
 msgid "Content"
 msgstr "Contenu"
 
-#: app/templates/admin-pages.html:9 app/templates/admin-posts.html:9
-#: app/templates/admin-tags.html:9 app/templates/admin-users.html:9
-#: app/views.py:77 app/views.py:90 app/views.py:100 app/views.py:109
+#: app/forms.py:19 app/forms.py:30 app/forms.py:41 app/forms.py:52
+#: app/forms.py:62 app/templates/admin-pages.html:9
+#: app/templates/admin-posts.html:9 app/templates/admin-tags.html:9
+#: app/templates/admin-users.html:9
 msgid "Create"
 msgstr "Créer"
 
-#: app/views.py:80 app/views.py:93 app/views.py:104 app/views.py:112
-#: app/views.py:117
+#: app/forms.py:22 app/forms.py:44 app/forms.py:56 app/forms.py:65
+#: app/forms.py:71
 msgid "Save"
 msgstr "Enregistrer"
 
-#: app/templates/admin-pages.html:15 app/views.py:86
-msgid "Navigation label"
-msgstr "Etiquette menu"
-
-#: app/views.py:86
-msgid "The navigation label should contain between 1 and 50 characters"
-msgstr "L'étiquette menu doit contenir entre 1 et 50 caractères"
-
-#: app/templates/admin-users.html:14 app/views.py:97
-msgid "Username"
-msgstr "Nom d'utilisateur"
-
-#: app/views.py:97
-msgid "Username cannot be empty"
-msgstr "Merci de saisir un nom d'utilisateur"
-
-#: app/views.py:97
-msgid "The username should contain between 5 and 50 characters"
-msgstr "Le nom d'utilisateur doit contenir entre 5 et 50 caractères"
-
-#: app/templates/admin-users.html:15 app/views.py:98
-msgid "Email"
-msgstr "Email"
-
-#: app/views.py:98
-msgid "Email cannot be empty"
-msgstr "Merci de saisir une adresse e-mail"
-
-#: app/views.py:98
-msgid "The given e-mail is not valid"
-msgstr "L'adresse e-mail saisie n'est pas valide"
-
-#: app/views.py:99 app/views.py:103
-msgid "Password"
-msgstr "Mot de passe"
-
-#: app/views.py:99 app/views.py:103
-msgid "The password should contain between 5 and 50 characters"
-msgstr "Le mot de passe doit contenir entre 5 et 50 caractères"
-
-#: app/templates/admin-tags.html:14 app/views.py:108
+#: app/forms.py:27 app/forms.py:61 app/templates/admin-tags.html:14
 msgid "Name"
 msgstr "Nom"
 
-#: app/views.py:108
+#: app/forms.py:27
+msgid "The name should contain between 1 and 50 characters"
+msgstr "Le nom doit contenir entre 1 et 50 caractères"
+
+#: app/forms.py:28 app/forms.py:50 app/templates/admin-comments.html:14
+#: app/templates/admin-users.html:15
+msgid "Email"
+msgstr "Email"
+
+#: app/forms.py:28 app/forms.py:50
+msgid "Email cannot be empty"
+msgstr "Merci de saisir une adresse e-mail"
+
+#: app/forms.py:28 app/forms.py:50
+msgid "The given e-mail is not valid"
+msgstr "L'adresse e-mail saisie n'est pas valide"
+
+#: app/forms.py:37 app/templates/admin-pages.html:15
+msgid "Navigation label"
+msgstr "Etiquette menu"
+
+#: app/forms.py:37
+msgid "The navigation label should contain between 1 and 50 characters"
+msgstr "L'étiquette menu doit contenir entre 1 et 50 caractères"
+
+#: app/forms.py:49 app/templates/admin-users.html:14
+msgid "Username"
+msgstr "Nom d'utilisateur"
+
+#: app/forms.py:49
+msgid "Username cannot be empty"
+msgstr "Merci de saisir un nom d'utilisateur"
+
+#: app/forms.py:49
+msgid "The username should contain between 5 and 50 characters"
+msgstr "Le nom d'utilisateur doit contenir entre 5 et 50 caractères"
+
+#: app/forms.py:51 app/forms.py:55
+msgid "Password"
+msgstr "Mot de passe"
+
+#: app/forms.py:51 app/forms.py:55
+msgid "The password should contain between 5 and 50 characters"
+msgstr "Le mot de passe doit contenir entre 5 et 50 caractères"
+
+#: app/forms.py:61
 msgid "The tag name should contain between 2 and 50 characters"
 msgstr "Le tag doit contenir entre 2 et 50 caractères"
 
-#: app/views.py:116
+#: app/forms.py:70
 msgid "Language"
 msgstr "Langage"
 
-#: app/views.py:149 app/views.py:185
+#: app/models.py:33 app/models.py:69
 msgid "The slug should be at least 1 character"
 msgstr "Le slug doit contenir au moins 1 caractère"
 
-#: app/views.py:190
+#: app/models.py:74
 msgid "The navigation label should be at least 1 character"
 msgstr "L'étiquette menu doit contenir au moins 1 caractère"
 
-#: app/views.py:204
+#: app/models.py:88
 msgid "Username should be at least 1 character"
 msgstr "Le nom d'utilisateur doit contenir au moins 1 caractère"
 
-#: app/views.py:209
+#: app/models.py:93
 msgid "Password should be at least 1 character"
 msgstr "Le mot de passe doit contenir au moins 1 caractère"
 
-#: app/views.py:220
+#: app/models.py:116
 msgid "The tag name should be at least 1 character"
 msgstr "Le tag doit contenir au moins 1 caractère"
 
-#: app/views.py:301
+#: app/views.py:70
 msgid "Username and password doesn't match"
 msgstr "Nom d'utilisateur ou mot de passe incorrect"
 
-#: app/views.py:320
+#: app/views.py:89
 msgid "Configuration saved"
 msgstr "Configuration enregistrée"
 
-#: app/views.py:353
+#: app/views.py:122
 #, python-format
 msgid "The post '%s' has been created successfully"
 msgstr "L'article '%s' a bien été créé"
 
-#: app/views.py:363
+#: app/views.py:132
 #, python-format
 msgid "Post '%s' deleted"
 msgstr "L'article '%s' a été supprimé"
 
-#: app/views.py:421
+#: app/views.py:180
+#, python-format
+msgid "The comment of '%s' has been approved"
+msgstr "Le commentaire de '%s' a été approuvé"
+
+#: app/views.py:190
+#, python-format
+msgid "The comment of '%s' has been deleted"
+msgstr "Le commentaire de '%s' a été supprimé"
+
+#: app/views.py:217
 #, python-format
 msgid "The page '%s' has been created successfully"
 msgstr "La page '%s' a bien été créé"
 
-#: app/views.py:433
+#: app/views.py:229
 #, python-format
 msgid "The page '%s' has been deleted"
 msgstr "La page '%s' a été supprimé"
 
-#: app/views.py:478
+#: app/views.py:274
 #, python-format
 msgid "The tag '%s' has been created"
 msgstr "Le tag '%s' a bien été créé"
 
-#: app/views.py:490
+#: app/views.py:286
 #, python-format
 msgid "The tag '%s' has been deleted"
 msgstr "Le tag '%s' a été supprimé"
 
-#: app/views.py:531
+#: app/views.py:327
 #, python-format
 msgid "The user '%s' has been created"
 msgstr "L'utilisateur '%s' a bien été créé"
 
-#: app/views.py:541
+#: app/views.py:337
 #, python-format
 msgid "The user '%s' has been deleted"
 msgstr "L'utilisateur '%s' a été supprimé"
 
-#: app/templates/admin-configuration.html:3 app/templates/admin.html:50
+#: app/templates/admin-comments.html:3 app/templates/admin.html:41
+msgid "Comments"
+msgstr "Commentaires"
+
+#: app/templates/admin-comments.html:7
+msgid "The comments"
+msgstr "Les commentaires"
+
+#: app/templates/admin-comments.html:12 app/templates/admin-pages.html:13
+#: app/templates/admin-posts.html:13 app/templates/admin-tags.html:13
+#: app/templates/admin-users.html:13
+msgid "ID"
+msgstr "ID"
+
+#: app/templates/admin-comments.html:13 app/templates/admin-posts.html:16
+msgid "Author"
+msgstr "Auteur"
+
+#: app/templates/admin-comments.html:15
+msgid "Post"
+msgstr "Article"
+
+#: app/templates/admin-comments.html:17
+msgid "Approved"
+msgstr "Approuvé"
+
+#: app/templates/admin-comments.html:18 app/templates/admin-pages.html:18
+#: app/templates/admin-posts.html:19 app/templates/admin-tags.html:15
+#: app/templates/admin-users.html:16
+msgid "Actions"
+msgstr "Actions"
+
+#: app/templates/admin-comments.html:29 app/templates/admin-pages.html:28
+#: app/templates/admin-posts.html:29
+msgid "Yes"
+msgstr "Oui"
+
+#: app/templates/admin-comments.html:29 app/templates/admin-pages.html:28
+#: app/templates/admin-posts.html:29
+msgid "No"
+msgstr "Non"
+
+#: app/templates/admin-comments.html:32
+msgid "Approve"
+msgstr "Approuver"
+
+#: app/templates/admin-comments.html:35 app/templates/admin-pages.html:34
+#: app/templates/admin-posts.html:37 app/templates/admin-tags.html:28
+#: app/templates/admin-users.html:30
+msgid "Delete"
+msgstr "Supprimer"
+
+#: app/templates/admin-configuration.html:3 app/templates/admin.html:53
 msgid "Configuration"
 msgstr "Configuration"
 
@@ -206,7 +275,7 @@ msgstr "Créer une page"
 msgid "Edit page"
 msgstr "Modifier une page"
 
-#: app/templates/admin-pages.html:3 app/templates/admin.html:41
+#: app/templates/admin-pages.html:3 app/templates/admin.html:44
 msgid "Pages"
 msgstr "Pages"
 
@@ -214,33 +283,10 @@ msgstr "Pages"
 msgid "The pages"
 msgstr "Les pages"
 
-#: app/templates/admin-pages.html:13 app/templates/admin-posts.html:13
-#: app/templates/admin-tags.html:13 app/templates/admin-users.html:13
-msgid "ID"
-msgstr "ID"
-
-#: app/templates/admin-pages.html:18 app/templates/admin-posts.html:19
-#: app/templates/admin-tags.html:15 app/templates/admin-users.html:16
-msgid "Actions"
-msgstr "Actions"
-
-#: app/templates/admin-pages.html:28 app/templates/admin-posts.html:29
-msgid "Yes"
-msgstr "Oui"
-
-#: app/templates/admin-pages.html:28 app/templates/admin-posts.html:29
-msgid "No"
-msgstr "Non"
-
 #: app/templates/admin-pages.html:31 app/templates/admin-posts.html:33
 #: app/templates/admin-tags.html:25 app/templates/admin-users.html:27
 msgid "Edit"
 msgstr "Modifier"
-
-#: app/templates/admin-pages.html:34 app/templates/admin-posts.html:37
-#: app/templates/admin-tags.html:28 app/templates/admin-users.html:30
-msgid "Delete"
-msgstr "Supprimer"
 
 #: app/templates/admin-posts-create.html:3
 #: app/templates/admin-posts-create.html:8
@@ -262,10 +308,6 @@ msgstr "Les articles"
 #: app/templates/admin-posts.html:15
 msgid "Create date"
 msgstr "Date création"
-
-#: app/templates/admin-posts.html:16
-msgid "Author"
-msgstr "Auteur"
 
 #: app/templates/admin-tags-create.html:3
 #: app/templates/admin-tags-create.html:8
@@ -297,14 +339,18 @@ msgstr "Les utilisateurs"
 msgid "Admin"
 msgstr "Admin"
 
-#: app/templates/admin.html:44
+#: app/templates/admin.html:47
 msgid "Users"
 msgstr "Utilisateurs"
 
-#: app/templates/admin.html:53
+#: app/templates/admin.html:56
 msgid "Back to website"
 msgstr "Retour au site"
 
-#: app/templates/admin.html:56
+#: app/templates/admin.html:59
 msgid "Logout"
 msgstr "Déconnection"
+
+#: app/templates/site-post-detail.html:20
+msgid "New comment"
+msgstr "Nouveau commentaire"
