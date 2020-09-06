@@ -162,6 +162,33 @@ def admin_posts_edit(post_id):
     return render_template('admin-posts-edit.html', post=post, form=form)
 
 
+################## ADMIN COMMENTS
+
+@app.route('/admin/comments')
+@login_required
+def admin_comments():
+    comments = Comment.query.all()
+    return render_template('admin-comments.html', comments=comments)
+
+
+@app.route('/admin/comments/approve/<int:comment_id>', methods=['POST'])
+@login_required
+def admin_comments_approve(comment_id):
+    comment = Comment.query.get(comment_id)
+    comment.approved = True
+    db.session.commit()
+    flash(_("The comment of '%s' has been approved") % comment.author_name, 'info')
+    return redirect(url_for('admin_comments'))
+
+
+@app.route('/admin/comments/delete/<int:comment_id>', methods=['POST'])
+@login_required
+def admin_comments_delete(comment_id):
+    comment = Comment.query.get(comment_id)
+    db.session.delete(comment)
+    db.session.commit()
+    flash(_("The comment of '%s' has been deleted") % comment.author_name, 'info')
+    return redirect(url_for('admin_comments'))
 
 
 ################## ADMIN PAGES
