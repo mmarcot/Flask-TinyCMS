@@ -6,7 +6,7 @@ from flask_babel import _
 from datetime import datetime
 
 from app import db
-from .utils import LANGUAGES
+from config import Config
 
 
 tags = db.Table('tags',
@@ -147,6 +147,6 @@ class Configuration(db.Model):
             config = cls.get_current_config()
             return config.language
         else:
-            return request.accept_languages.best_match([tu[0] for tu in LANGUAGES])
+            return request.accept_languages.best_match([tu[0] for tu in Config.LANGUAGES])
 
 

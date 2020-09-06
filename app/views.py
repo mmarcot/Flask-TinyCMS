@@ -7,7 +7,15 @@ from .forms import *
 from .models import User, Configuration, Tag, Post, Page, Comment
 
 from app import app, db
-from .utils import flash_form_errors
+
+
+
+
+def flash_form_errors(form):
+    for field_name, errors in form.errors.items():
+        for error in errors:
+            flash(error, 'danger')
+
 
 
 @app.route('/')

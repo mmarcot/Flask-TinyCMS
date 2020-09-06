@@ -3,7 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextA
 from wtforms.validators import InputRequired, Email, Length, Optional
 from flask_babel import lazy_gettext
 
-from .utils import LANGUAGES
+from config import Config
 
 
 
@@ -67,5 +67,5 @@ class TagEditForm(TagCreateForm):
 
 
 class AdminConfigurationForm(FlaskForm):
-    language = SelectField(lazy_gettext('Language'), choices=LANGUAGES)
+    language = SelectField(lazy_gettext('Language'), choices=Config.LANGUAGES)
     submit = SubmitField(lazy_gettext('Save'))
